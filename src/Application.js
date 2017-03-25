@@ -1,11 +1,25 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { render } from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware } from 'redux'
+import thunkMiddleware from 'redux-thunk'
+import rootReducer from './reducers'
 
-import Main from './containers/Main'
+const store = createStore(
+  rootReducer,
+  {},
+  applyMiddleware(
+    thunkMiddleware
+  )
+)
+
+import Main from './components/Main.jsx'
 
 (() => {
-  ReactDOM.render(
-    <Main />,
+  render(
+    <Provider store={store}>
+      <Main />
+    </Provider>,
     document.getElementById('application')
   )
 })()
