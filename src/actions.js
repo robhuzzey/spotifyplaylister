@@ -68,7 +68,7 @@ export const getUsersTracks = (offset = 0, limit = 50) => {
         })
 
         const albums = items.map(item => {
-          return item.track.album
+          return item.album
         }).filter((obj, pos, arr) => {
           return arr.map(mapObj => mapObj.id).indexOf(obj.id) === pos
         });
@@ -105,7 +105,7 @@ export const addSeed = trackId => {
   return (dispatch, getState) => {
 
     const track = getState().userTracks.items.find(track => {
-      return track.track.id === trackId
+      return track.id === trackId
     })
 
     dispatch({
@@ -123,7 +123,7 @@ export const getRecommendations = () => {
     // Get tracks in the signed in user's Your Music library
     setAccessToken()
     return spotify.getRecommendations({
-      seed_tracks: getState().seeds.items.map(item => { return item.track.id })
+      seed_tracks: getState().seeds.items.map(item => { return item.id })
     })
     .then(function(data) { 
       dispatch({

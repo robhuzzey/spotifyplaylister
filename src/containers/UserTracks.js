@@ -37,8 +37,8 @@ const UserTracks = props => (
     {props.tracks.map((track, i) => {
       return (
         <Track 
-          track={track.track}
-          seed={props.seed.bind(null, track.track.id)}
+          track={track}
+          seed={props.seed.bind(null, track.id)}
           key={i} />
       )
     })}

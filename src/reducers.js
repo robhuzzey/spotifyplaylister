@@ -21,7 +21,7 @@ const userTracks = (state = {
         isFetching: true
       })
     case RECEIVE_TRACKS:
-      const items = state.items.concat(action.data.body.items);
+      const items = state.items.concat(action.data.body.items.map(item => item.track));
       return Object.assign({}, state, {
         items,
         isFetching: false

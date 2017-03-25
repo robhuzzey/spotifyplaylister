@@ -22,10 +22,10 @@ const Seeds = props => (
   <div>
     {props.items.map((track, i) => {
       return <Track 
-          track={track.track}
+          track={track}
           key={i} />
     })}
-    <button onClick={props.getRecommendations}>Get Suggestions</button>
+    {props.items.length > 0 && <button onClick={props.getRecommendations}>Get Suggestions</button>}
   </div>
 )
 
