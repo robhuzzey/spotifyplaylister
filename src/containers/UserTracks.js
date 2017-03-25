@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addSeed, getUsersTracks } from '../actions'
+import { addSeed, removeSeed, getUsersTracks } from '../actions'
 
 import Track from '../components/Track.jsx'
 
@@ -13,7 +13,7 @@ const mapStateToProps = (state, ownProps) => {
     artists: state.artists.items,
     totalArtists: state.artists.total,
     isFetching: state.userTracks.isFetching,
-    seedIds: state.seeds.ids
+    seedIds: state.seeds.items.map(seed => seed.id)
   }
 }
 
@@ -22,29 +22,49 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getUsersTracks: () => {
       dispatch(getUsersTracks())
     },
-    seed: trackId => {
+    addSeed: trackId => {
       dispatch(addSeed(trackId))
+    },
+    removeSeed: trackId => {
+      dispatch(removeSeed(trackId))
     }
   }
 }
 
-const UserTracks = props => (
-  <div>
-    {props.isFetching && <p>Fetching tracks</p>}
-    <p>Total tracks: {props.totalTracks}</p>
-    <p>Total albums: {props.totalAlbums}</p>
-    <p>Total artists: {props.totalArtists}</p>
-    {props.tracks.map((track, i) => {
-      return (
-        <Track 
-          track={track}
-          seed={props.seed.bind(null, track.id)}
-          key={i} />
-      )
-    })}
-    <button onClick={props.getUsersTracks}>Get tracks</button>
-  </div>
-)
+class UserTracks extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.isASeed = this.isASeed.bind(this)
+  }
+
+  isASeed(trackId) {
+    return (this.props.seedIds.indexOf(trackId) !== -1)
+  }
+
+  render() {
+    return (
+      <div>
+        {this.props.isFetching && <p>Fetching tracks</p>}
+        <p>Total tracks: {this.props.totalTracks}</p>
+        <p>Total albums: {this.props.totalAlbums}</p>
+        <p>Total artists: {this.props.totalArtists}</p>
+        <p>{this.props.seedIds.join(',')}</p>
+        {this.props.tracks.map((track, i) => {
+          return (
+            <Track 
+              track={track}
+              isASeed={this.isASeed(track.id)}
+              addSeed={this.props.addSeed.bind(null, track.id)}
+              removeSeed={this.props.removeSeed.bind(null, track.id)}
+              key={i} />
+          )
+        })}
+        <button onClick={this.props.getUsersTracks}>Get tracks</button>
+      </div>
+    )
+  }
+}
 
 export default connect(
   mapStateToProps,

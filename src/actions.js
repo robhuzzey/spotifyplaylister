@@ -8,8 +8,13 @@ export const RECEIVED_ALL_TRACKS = 'RECEIVED_ALL_TRACKS'
 export const RECEIVED_ALL_ALBUMS = 'RECEIVED_ALL_ALBUMS'
 export const RECEIVED_ALL_ARTISTS = 'RECEIVED_ALL_ARTISTS'
 export const ADD_SEED = 'ADD_SEED'
+export const REMOVE_SEED = 'REMOVE_SEED'
 export const REQUEST_RECOMMENDATIONS = 'REQUEST_RECOMMENDATIONS'
 export const RECEIVE_RECOMMENDATIONS = 'RECEIVE_RECOMMENDATIONS'
+export const REQUEST_AUTHENTICATION = 'REQUEST_AUTHENTICATION'
+export const RECEIVE_AUTHENTICATION = 'RECEIVE_AUTHENTICATION'
+export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN'
+export const IS_AUTHENTICATED = 'IS_AUTHENTICATED'
 
 const parseHash = hash => {
   return hash.replace('#','')
@@ -25,20 +30,37 @@ const parseHash = hash => {
 }
 
 const setAccessToken = () => {
-  const access_token = parseHash(window.location.hash).access_token
-  spotify.setAccessToken(access_token)
+  return (dispatch, getState) => {
+    const accessToken = parseHash(window.location.hash).access_token
+    const expires = parseHash(window.location.hash).expires_in
+    dispatch({
+      type: SET_ACCESS_TOKEN,
+      accessToken,
+      expires
+    })
+    spotify.setAccessToken(accessToken)
+  }
+}
+
+export const checkAccessToken = () => {
+  return (dispatch, getState) => {
+    const now = new Date();
+    const expires = getState().authenticate.expires
+    if(!expires || expires < now) {
+      return dispatch(setAccessToken())
+    }
+    dispatch({
+      type: IS_AUTHENTICATED
+    })
+  }
 }
 
 export const authenticate = () => {
-  const redirectUri = encodeURIComponent('http://www.robhuzzey.co.uk/spotifyplaylister/');
-  const clientId = '214aa492fc5142cda977c15cf3fb40c6';
-  const scopes = encodeURIComponent([
-    'user-library-read',
-    'user-library-modify',
-    'user-read-private',
-    'playlist-modify-public'
-  ].join(' '));
-  return window.location = `https://accounts.spotify.com/authorize?client_id=${clientId}&scope=${scopes}&show_dialog=true&response_type=token&redirect_uri=${redirectUri}`;
+  return (dispatch, getState) => {
+    dispatch({
+      type: REQUEST_AUTHENTICATION
+    })
+  }
 }
 
 export const getUsersTracks = (offset = 0, limit = 50) => {
@@ -111,6 +133,15 @@ export const addSeed = trackId => {
     dispatch({
       type: ADD_SEED,
       track: track
+    })
+  }
+}
+
+export const removeSeed = trackId => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: REMOVE_SEED,
+      trackId
     })
   }
 }
