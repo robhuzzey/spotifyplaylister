@@ -4,6 +4,7 @@ export default (props) => (
     <div>
       <img src={(props.track.album.images[2] || props.track.album.images[1] || props.track.album.images[0]).url} />
       {props.track.name}
+      {props.play && <button onClick={() => props.play(props.track.preview_url, props.track.name)}>Play</button>}
       {!props.isASeed && props.addSeed && <button onClick={props.addSeed}>Add Seed</button>}
       {props.isASeed && props.removeSeed && <button onClick={props.removeSeed}>Remove Seed</button>}
     </div>

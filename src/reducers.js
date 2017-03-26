@@ -12,7 +12,9 @@ import {
   REQUEST_AUTHENTICATION,
   RECEIVE_AUTHENTICATION,
   SET_ACCESS_TOKEN,
-  IS_AUTHENTICATED
+  IS_AUTHENTICATED,
+  LOAD_TRACK,
+  UNLOAD_TRACK
 } from './actions'
 
 const userTracks = (state = {
@@ -155,13 +157,33 @@ const authenticate = (state = {
   }
 }
 
+const player = (state = {
+  src: ''
+}, action) => {
+  switch (action.type) {
+    case LOAD_TRACK:
+      return Object.assign({}, state, {
+        src: action.url,
+        name: action.name
+      })
+    case UNLOAD_TRACK:
+      return Object.assign({}, state, {
+        src: ''
+      })
+    default:
+      return state
+  }
+
+}
+
 const rootReducer = combineReducers({
   albums,
   artists,
   authenticate,
   userTracks,
   seeds,
-  recommendations
+  recommendations,
+  player
 })
 
 export default rootReducer

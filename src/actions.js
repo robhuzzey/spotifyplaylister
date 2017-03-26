@@ -15,6 +15,8 @@ export const REQUEST_AUTHENTICATION = 'REQUEST_AUTHENTICATION'
 export const RECEIVE_AUTHENTICATION = 'RECEIVE_AUTHENTICATION'
 export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN'
 export const IS_AUTHENTICATED = 'IS_AUTHENTICATED'
+export const LOAD_TRACK = 'LOAD_TRACK'
+export const UNLOAD_TRACK = 'UNLOAD_TRACK'
 
 const parseHash = hash => {
   return hash.replace('#','')
@@ -163,6 +165,23 @@ export const getRecommendations = () => {
       })
     }, function(err) {
       console.log('Something went wrong!', err)
+    })
+  }
+}
+
+export const loadTrack = (url, name) => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: LOAD_TRACK,
+      url
+    })
+  }
+}
+
+export const unloadTrack = () => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: UNLOAD_TRACK
     })
   }
 }

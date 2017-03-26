@@ -4,9 +4,9 @@ import Seeds from '../containers/Seeds'
 import Recommendations from '../containers/Recommendations'
 import Authenticate from '../containers/Authenticate'
 import Controls from '../containers/Controls'
+import Player from '../containers/Player'
 
 import {Grid, Row, Col} from 'react-bootstrap'
-
 
 export default (props) => (
   <Grid>
@@ -14,6 +14,7 @@ export default (props) => (
       <Col sm={12} md={12}>
         <h1>Spotify Playlister</h1>
         <Controls />
+        <Player />
         <Authenticate>
           <Grid>
             <Row>
