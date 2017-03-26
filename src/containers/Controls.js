@@ -26,39 +26,23 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-class Controls extends React.Component {
-
-  constructor(props) {
-    super(props)
-    this.getPercentLoaded = this.getPercentLoaded.bind(this)
-  }
-
-  getPercentLoaded() {
-    if(this.props.count < 1 || this.props.totalTracks < 0) return 0;
-    return Math.round((((this.props.count || 1) / (this.props.totalTracks || 1)) * 100));
-  }
-
-  render() {
-    const percentLoaded = this.getPercentLoaded()
-    return (
+const Controls = props => (
+  <div>
+    <ButtonGroup>
+      {props.tracks.length === 0 && <Button onClick={props.getUsersTracks}>Get tracks</Button>}
+      {props.seeds.length > 0 && <Button onClick={props.getRecommendations}>Get suggestions</Button>}
+    </ButtonGroup>
+    {props.isFetching ? (
+      <ProgressBar now={props.count} max={props.totalTracks} label={`Loading ${props.count} of ${props.totalTracks}`} />
+    ) : (
       <div>
-        <ButtonGroup>
-          {this.props.tracks.length === 0 && <Button onClick={this.props.getUsersTracks}>Get tracks</Button>}
-          {this.props.seeds.length > 0 && <Button onClick={this.props.getRecommendations}>Get suggestions</Button>}
-        </ButtonGroup>
-        {this.props.isFetching ? (
-          <ProgressBar now={percentLoaded} label={`Loading ${this.props.count} of ${this.props.totalTracks} (${percentLoaded}%)`} />
-        ) : (
-          <div>
-            <p>Total tracks: {this.props.totalTracks}</p>
-            <p>Total albums: {this.props.totalAlbums}</p>
-            <p>Total artists: {this.props.totalArtists}</p>
-          </div>
-        )}
+        <p>Total tracks: {props.totalTracks}</p>
+        <p>Total albums: {props.totalAlbums}</p>
+        <p>Total artists: {props.totalArtists}</p>
       </div>
-    )
-  }
-}
+    )}
+  </div>
+)
 
 export default connect(
   mapStateToProps,

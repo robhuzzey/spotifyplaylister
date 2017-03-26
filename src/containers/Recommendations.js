@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import Track from '../components/Track.jsx'
 
-import { loadTrack } from '../actions'
+import { loadTrack, addSeed } from '../actions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -16,19 +16,24 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     play: (url, name) => {
       dispatch(loadTrack(url, name))
+    },
+    addSeed: trackId => {
+      dispatch(addSeed(trackId))
     }
   }
 }
 
 const Recommendations = props => (
   <div>
+    <h2>Recommendations</h2>
     {props.isFetching && <p>Fetching tracks</p>}
     {props.tracks.map((track, i) => {
       return (
         <Track 
           track={track} 
           key={i} 
-          play={props.play} />
+          play={props.play}
+          addSeed={props.addSeed.bind(null, track.id)} />
       )
     })}
   </div>

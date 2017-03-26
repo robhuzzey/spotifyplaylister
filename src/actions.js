@@ -17,6 +17,7 @@ export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN'
 export const IS_AUTHENTICATED = 'IS_AUTHENTICATED'
 export const LOAD_TRACK = 'LOAD_TRACK'
 export const UNLOAD_TRACK = 'UNLOAD_TRACK'
+export const PLAYING_PROGRESS = 'PLAYING_PROGRESS'
 
 const parseHash = hash => {
   return hash.replace('#','')
@@ -128,9 +129,15 @@ export const getUsersTracks = (offset = 0, limit = 50) => {
 export const addSeed = trackId => {
   return (dispatch, getState) => {
 
-    const track = getState().userTracks.items.find(track => {
+    let track = getState().userTracks.items.find(track => {
       return track.id === trackId
     })
+
+    if(!track) {
+      track = getState().recommendations.items.find(track => {
+        return track.id === trackId
+      })
+    }
 
     dispatch({
       type: ADD_SEED,
@@ -173,7 +180,8 @@ export const loadTrack = (url, name) => {
   return (dispatch, getState) => {
     dispatch({
       type: LOAD_TRACK,
-      url
+      url,
+      name
     })
   }
 }
@@ -182,6 +190,16 @@ export const unloadTrack = () => {
   return (dispatch, getState) => {
     dispatch({
       type: UNLOAD_TRACK
+    })
+  }
+}
+
+export const playingProgress = (currentTime, totalTime) => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: PLAYING_PROGRESS,
+      currentTime,
+      totalTime
     })
   }
 }

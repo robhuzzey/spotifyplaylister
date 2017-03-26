@@ -14,7 +14,8 @@ import {
   SET_ACCESS_TOKEN,
   IS_AUTHENTICATED,
   LOAD_TRACK,
-  UNLOAD_TRACK
+  UNLOAD_TRACK,
+  PLAYING_PROGRESS
 } from './actions'
 
 const userTracks = (state = {
@@ -169,6 +170,11 @@ const player = (state = {
     case UNLOAD_TRACK:
       return Object.assign({}, state, {
         src: ''
+      })
+    case PLAYING_PROGRESS:
+      return Object.assign({}, state, {
+        currentTime: action.currentTime,
+        totalTime: action.totalTime
       })
     default:
       return state

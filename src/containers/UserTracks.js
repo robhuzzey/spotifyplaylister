@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addSeed, removeSeed, getUsersTracks } from '../actions'
+import { addSeed, getUsersTracks, loadTrack } from '../actions'
 
 import Track from '../components/Track.jsx'
 
@@ -19,8 +19,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     addSeed: trackId => {
       dispatch(addSeed(trackId))
     },
-    removeSeed: trackId => {
-      dispatch(removeSeed(trackId))
+    play: (url, name) => {
+      dispatch(loadTrack(url, name))
     }
   }
 }
@@ -39,14 +39,14 @@ class UserTracks extends React.Component {
   render() {
     return (
       <div>
+        <h2>Saved tracks</h2>
         {this.props.tracks.map((track, i) => {
           return (
             <Track 
               track={track}
-              isASeed={this.isASeed(track.id)}
-              addSeed={this.props.addSeed.bind(null, track.id)}
-              removeSeed={this.props.removeSeed.bind(null, track.id)}
-              key={i} />
+              addSeed={!this.isASeed(track.id) && this.props.addSeed.bind(null, track.id)}
+              key={i}
+              play={this.props.play} />
           )
         })}
       </div>
