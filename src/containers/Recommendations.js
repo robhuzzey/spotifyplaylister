@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import Track from '../components/Track.jsx'
+import TrackWithControls from '../components/TrackWithControls.jsx'
 
-import { Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap'
 
-import { loadTrack, addSeed, getRecommendations } from '../actions'
+import { getRecommendations } from '../actions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -19,8 +19,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     play: (url, name) => {
       dispatch(loadTrack(url, name))
     },
-    addSeed: trackId => {
-      dispatch(addSeed(trackId))
+    addSeed: track => {
+      dispatch(addSeed(track))
     },
     getRecommendations: () => {
       dispatch(getRecommendations())
@@ -32,13 +32,7 @@ const Recommendations = props => (
   <div>
     {props.items.length > 0 && <Button onClick={props.getRecommendations}>Refresh suggestions</Button>}
     {props.items.map((track, i) => {
-      return (
-        <Track 
-          track={track} 
-          key={i} 
-          play={props.play}
-          addSeed={props.addSeed.bind(null, track.id)} />
-      )
+      return <TrackWithControls track={track} key={i} />
     })}
   </div>
 )

@@ -30,8 +30,16 @@ class Main extends React.Component {
       <Grid>
         <Row>
           <Col sm={12} md={12}>
-            <h1>Spotify Playlister</h1>
-            <Player />
+            <Grid>
+              <Row>
+                <Col sm={12} md={7}>
+                  <h1>Spotify Playlister</h1>
+                </Col>
+                <Col sm={12} md={5}>
+                  <Player />
+                </Col>
+              </Row>
+            </Grid>
             <Authenticate>
               <Tabs defaultActiveKey={this.state.index} activeKey={this.state.index} onSelect={this.handleChangeIndex} id="controlled-tab-example">
                 <Tab eventKey={0} title="Tracks" />

@@ -5,7 +5,7 @@ import { loadTrack, removeSeed, getRecommendations } from '../actions'
 
 import { Button } from 'react-bootstrap';
 
-import Track from '../components/Track.jsx'
+import TrackWithControls from '../components/TrackWithControls.jsx'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -31,11 +31,18 @@ const Seeds = props => (
   <div>
     {props.items.length > 0 && <Button onClick={props.getRecommendations}>Get suggestions</Button>}
     {props.items.map((track, i) => {
-      return <Track 
-          track={track}
-          key={i}
-          removeSeed={props.removeSeed.bind(null, track.id)}
-          play={props.play} />
+      const divider = i >= 4 ? (
+        <div>
+          <hr />
+          <p>Only those above this line are considered as seeds when recommending tracks</p>
+        </div>
+      ) : ''
+      return (
+        <div key={i}>
+          <TrackWithControls track={track} />
+          {divider}
+        </div>
+      )
     })}
   </div>
 )

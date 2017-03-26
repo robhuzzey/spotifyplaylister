@@ -1,17 +1,13 @@
 import React from 'react'
+import { Media } from 'react-bootstrap'
 export default (props) => (
-  <div>
-    <div>
-      {props.track &&
-        <div>
-          {props.track.album && <img src={(props.track.album.images[2] || props.track.album.images[1] || props.track.album.images[0]).url} />}
-          {props.track.name}
-          {props.play && <button onClick={() => props.play(props.track)}>Play</button>}
-          {props.addSeed && !props.removeSeed && <button onClick={props.addSeed}>Add Seed</button>}
-          {props.removeSeed && <button onClick={props.removeSeed}>Remove Seed</button>}
-        </div>
-      }
-    </div>
-    {/*<pre>{JSON.stringify(props.track, null, 2)}</pre>*/}
-  </div>
+  <Media>
+    <Media.Left>
+      <img alt="album art" width={64} height={64} src={props.track && props.track.album && (props.track.album.images[2] || props.track.album.images[1] || props.track.album.images[0]).url} />
+    </Media.Left>
+    <Media.Body>
+      <Media.Heading>{props.track.name} <small>{(props.track.artists || []).map(artist => artist.name).join(' / ')}</small></Media.Heading>
+      {props.children}
+    </Media.Body>
+  </Media>
 )

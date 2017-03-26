@@ -14,8 +14,7 @@ import {
   SET_ACCESS_TOKEN,
   IS_AUTHENTICATED,
   LOAD_TRACK,
-  UNLOAD_TRACK,
-  PLAYING_PROGRESS
+  UNLOAD_TRACK
 } from './actions'
 
 const userTracks = (state = {
@@ -84,13 +83,13 @@ const seeds = (state = {
     case ADD_SEED:
       return Object.assign({}, state, {
         items: [
-          ...state.items,
-          action.track
+          action.track,
+          ...state.items
         ]
       })
     case REMOVE_SEED:
       return Object.assign({}, state, {
-        items: [...state.items].filter(item => item.id !== action.trackId)
+        items: [...state.items].filter(item => item.id !== action.track.id)
       })
     default:
       return state
@@ -170,11 +169,6 @@ const player = (state = {
     case UNLOAD_TRACK:
       return Object.assign({}, state, {
         track: {}
-      })
-    case PLAYING_PROGRESS:
-      return Object.assign({}, state, {
-        currentTime: action.currentTime,
-        totalTime: action.totalTime
       })
     default:
       return state
