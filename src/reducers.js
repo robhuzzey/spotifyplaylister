@@ -18,7 +18,8 @@ import {
 const userTracks = (state = {
   items: [],
   isFetching: false,
-  total: 0
+  total: 0,
+  count: 0
 }, action) => {
   switch (action.type) {
     case REQUEST_ALL_TRACKS:
@@ -29,7 +30,9 @@ const userTracks = (state = {
       const items = state.items.concat(action.data.body.items.map(item => item.track));
       return Object.assign({}, state, {
         items,
-        isFetching: false
+        isFetching: false,
+        total: action.data.body.total,
+        count: items.length
       })
     case RECEIVED_ALL_TRACKS:
       return Object.assign({}, state, {

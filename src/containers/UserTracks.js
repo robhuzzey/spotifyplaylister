@@ -7,12 +7,6 @@ import Track from '../components/Track.jsx'
 const mapStateToProps = (state, ownProps) => {
   return {
     tracks: state.userTracks.items,
-    totalTracks: state.userTracks.total,
-    albums: state.albums.items,
-    totalAlbums: state.albums.total,
-    artists: state.artists.items,
-    totalArtists: state.artists.total,
-    isFetching: state.userTracks.isFetching,
     seedIds: state.seeds.items.map(seed => seed.id)
   }
 }
@@ -45,11 +39,6 @@ class UserTracks extends React.Component {
   render() {
     return (
       <div>
-        {this.props.isFetching && <p>Fetching tracks</p>}
-        <p>Total tracks: {this.props.totalTracks}</p>
-        <p>Total albums: {this.props.totalAlbums}</p>
-        <p>Total artists: {this.props.totalArtists}</p>
-        <p>{this.props.seedIds.join(',')}</p>
         {this.props.tracks.map((track, i) => {
           return (
             <Track 
@@ -60,7 +49,6 @@ class UserTracks extends React.Component {
               key={i} />
           )
         })}
-        <button onClick={this.props.getUsersTracks}>Get tracks</button>
       </div>
     )
   }

@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { getRecommendations } from '../actions'
 
 import Track from '../components/Track.jsx'
 
@@ -11,11 +10,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    getRecommendations: () => {
-      dispatch(getRecommendations())
-    }
-  }
+  return {}
 }
 
 const Seeds = props => (
@@ -25,7 +20,6 @@ const Seeds = props => (
           track={track}
           key={i} />
     })}
-    {props.items.length > 0 && <button onClick={props.getRecommendations}>Get Suggestions</button>}
   </div>
 )
 
