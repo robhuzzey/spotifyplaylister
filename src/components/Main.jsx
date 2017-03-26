@@ -6,31 +6,54 @@ import Authenticate from '../containers/Authenticate'
 import Controls from '../containers/Controls'
 import Player from '../containers/Player'
 
-import {Grid, Row, Col} from 'react-bootstrap'
+import SwipeableViews from 'react-swipeable-views'
 
-export default (props) => (
-  <Grid>
-    <Row>
-      <Col sm={12} md={12}>
-        <h1>Spotify Playlister</h1>
-        <Controls />
-        <Player />
-        <Authenticate>
-          <Grid>
-            <Row>
-              <Col sm={12} md={3}>
+import {Grid, Row, Col, Tabs, Tab} from 'react-bootstrap'
+
+class Main extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.handleChangeIndex = this.handleChangeIndex.bind(this)
+    this.state = {
+      index: 0
+    }
+  }
+
+  handleChangeIndex(index) {
+    this.setState({
+      index
+    })
+  }
+
+  render() {
+    const {
+      index,
+    } = this.state;
+    return (
+      <Grid>
+        <Row>
+          <Col sm={12} md={12}>
+            <h1>Spotify Playlister</h1>
+            <Controls />
+            <Player />
+            <Authenticate>
+              <Tabs defaultActiveKey={index} onSelect={this.handleChangeIndex} id="controlled-tab-example">
+                <Tab eventKey={0} title="User tracks" />
+                <Tab eventKey={1} title="Seeds" />
+                <Tab eventKey={2} title="Recommendations" />
+              </Tabs>
+              <SwipeableViews index={index} onChangeIndex={this.handleChangeIndex}>
                 <UserTracks />
-              </Col>
-              <Col sm={12} md={3}>
                 <Seeds />
-              </Col>
-              <Col sm={12} md={3}>
                 <Recommendations />
-              </Col>
-            </Row>
-          </Grid>
-        </Authenticate>
-      </Col>
-    </Row>
-  </Grid>
-)
+              </SwipeableViews>
+            </Authenticate>
+          </Col>
+        </Row>
+      </Grid>
+    )
+  }
+}
+
+export default Main

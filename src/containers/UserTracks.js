@@ -39,7 +39,6 @@ class UserTracks extends React.Component {
   render() {
     return (
       <div>
-        <h2>Saved tracks</h2>
         {this.props.tracks.map((track, i) => {
           return (
             <Track 

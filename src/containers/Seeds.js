@@ -24,7 +24,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const Seeds = props => (
   <div>
-    <h2>Seeds</h2>
     {props.items.map((track, i) => {
       return <Track 
           track={track}

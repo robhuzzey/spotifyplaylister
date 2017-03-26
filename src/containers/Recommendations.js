@@ -25,7 +25,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const Recommendations = props => (
   <div>
-    <h2>Recommendations</h2>
     {props.isFetching && <p>Fetching tracks</p>}
     {props.tracks.map((track, i) => {
       return (
