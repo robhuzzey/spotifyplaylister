@@ -3,11 +3,13 @@ import { connect } from 'react-redux'
 
 import Track from '../components/Track.jsx'
 
-import { loadTrack, addSeed } from '../actions'
+import { Button } from 'react-bootstrap';
+
+import { loadTrack, addSeed, getRecommendations } from '../actions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    tracks: state.recommendations.items,
+    items: state.recommendations.items,
     isFetching: state.recommendations.isFetching
   }
 }
@@ -19,14 +21,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     addSeed: trackId => {
       dispatch(addSeed(trackId))
+    },
+    getRecommendations: () => {
+      dispatch(getRecommendations())
     }
   }
 }
 
 const Recommendations = props => (
   <div>
-    {props.isFetching && <p>Fetching tracks</p>}
-    {props.tracks.map((track, i) => {
+    {props.items.length > 0 && <Button onClick={props.getRecommendations}>Refresh suggestions</Button>}
+    {props.items.map((track, i) => {
       return (
         <Track 
           track={track} 

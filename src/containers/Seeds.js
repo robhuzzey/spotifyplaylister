@@ -1,7 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { loadTrack, removeSeed } from '../actions'
+import { loadTrack, removeSeed, getRecommendations } from '../actions'
+
+import { Button } from 'react-bootstrap';
 
 import Track from '../components/Track.jsx'
 
@@ -18,12 +20,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     removeSeed: trackId => {
       dispatch(removeSeed(trackId))
+    },
+    getRecommendations: () => {
+      dispatch(getRecommendations())
     }
   }
 }
 
 const Seeds = props => (
   <div>
+    {props.items.length > 0 && <Button onClick={props.getRecommendations}>Get suggestions</Button>}
     {props.items.map((track, i) => {
       return <Track 
           track={track}

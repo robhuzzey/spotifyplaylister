@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { loadTrack, unloadTrack, playingProgress } from '../actions'
-import { Button, ButtonGroup, ProgressBar, Panel } from 'react-bootstrap';
+import { Button, ButtonGroup, ProgressBar, Panel } from 'react-bootstrap'
+import Track from '../components/Track.jsx'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    src: state.player.src,
-    name: state.player.name,
+    track: state.player.track,
     currentTime: state.player.currentTime,
     totalTime: state.player.totalTime
   }
@@ -41,12 +41,15 @@ class Player extends React.Component {
   }
 
   render() {
+    const  {
+      track
+    } = this.props
     return (
       <Panel>
-        <p>Playing: {this.props.name}</p>
+        <Track track={track} />
         <ProgressBar now={this.props.currentTime} max={this.props.totalTime} label='Playing...' />
         <button onClick={this.props.unload}>Stop</button>
-        <audio autoPlay src={this.props.src} ref={ref => {this.audioEl = ref}}>
+        <audio autoPlay src={track.preview_url || ''} ref={ref => {this.audioEl = ref}}>
           Your browser does not support the <code>audio</code> element.
         </audio>
       </Panel>

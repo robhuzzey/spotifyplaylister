@@ -1,13 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { addSeed, getUsersTracks, loadTrack } from '../actions'
+import { Button, ProgressBar } from 'react-bootstrap';
 
 import Track from '../components/Track.jsx'
 
 const mapStateToProps = (state, ownProps) => {
   return {
     tracks: state.userTracks.items,
-    seedIds: state.seeds.items.map(seed => seed.id)
+    seedIds: state.seeds.items.map(seed => seed.id),
+    isFetching: state.userTracks.isFetching,
+    totalTracks: state.userTracks.total,
+    count: state.userTracks.count
   }
 }
 
@@ -39,15 +43,23 @@ class UserTracks extends React.Component {
   render() {
     return (
       <div>
-        {this.props.tracks.map((track, i) => {
-          return (
-            <Track 
-              track={track}
-              addSeed={!this.isASeed(track.id) && this.props.addSeed.bind(null, track.id)}
-              key={i}
-              play={this.props.play} />
-          )
-        })}
+        {this.props.tracks.length === 0 && <Button onClick={this.props.getUsersTracks}>Get tracks</Button>}
+        {this.props.isFetching ? (
+          <ProgressBar now={this.props.count} max={this.props.totalTracks} label={`Loading ${this.props.count} of ${this.props.totalTracks}`} />
+        ) : (
+          <div>
+            {this.props.tracks.map((track, i) => {
+              return (
+                <Track 
+                  track={track}
+                  addSeed={!this.isASeed(track.id) && this.props.addSeed.bind(null, track.id)}
+                  key={i}
+                  play={this.props.play} />
+              )
+            })}
+          </div>
+        )}
+        
       </div>
     )
   }

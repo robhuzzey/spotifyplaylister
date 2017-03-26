@@ -176,12 +176,11 @@ export const getRecommendations = () => {
   }
 }
 
-export const loadTrack = (url, name) => {
+export const loadTrack = track => {
   return (dispatch, getState) => {
     dispatch({
       type: LOAD_TRACK,
-      url,
-      name
+      track
     })
   }
 }

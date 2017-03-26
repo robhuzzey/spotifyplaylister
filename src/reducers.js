@@ -33,13 +33,14 @@ const userTracks = (state = {
       const items = state.items.concat(action.data.body.items.map(item => item.track));
       return Object.assign({}, state, {
         items,
-        isFetching: false,
+        isFetching: true,
         total: action.data.body.total,
         count: items.length
       })
     case RECEIVED_ALL_TRACKS:
       return Object.assign({}, state, {
-        total: action.total
+        total: action.total,
+        isFetching: false
       })
     default:
       return state
@@ -159,17 +160,16 @@ const authenticate = (state = {
 }
 
 const player = (state = {
-  src: ''
+  track: {}
 }, action) => {
   switch (action.type) {
     case LOAD_TRACK:
       return Object.assign({}, state, {
-        src: action.url,
-        name: action.name
+        track: action.track
       })
     case UNLOAD_TRACK:
       return Object.assign({}, state, {
-        src: ''
+        track: {}
       })
     case PLAYING_PROGRESS:
       return Object.assign({}, state, {
