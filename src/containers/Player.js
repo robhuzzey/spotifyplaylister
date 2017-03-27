@@ -2,8 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { loadTrack, unloadTrack, addSeed } from '../actions'
 import { Button, ButtonGroup, Panel } from 'react-bootstrap'
-import Track from '../components/Track.jsx'
-import Controls from './Controls'
+import TrackWithControls from '../components/TrackWithControls.jsx'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -27,9 +26,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const Player = props => (
   <Panel>
-    <Track track={props.track}>
-      <Controls track={props.track} />
-    </Track>
+    <TrackWithControls track={props.track} />
     <audio autoPlay src={props.track.preview_url || ''}>
       Your browser does not support the <code>audio</code> element.
     </audio>
