@@ -2,7 +2,12 @@ import React from 'react'
 import { Media } from 'react-bootstrap'
 export default (props) => (
   <Media>
-    <Media.Left>
+    <Media.Left 
+      onTouchStart={() => props.over(props.track)}
+      onMouseOver={() => props.over(props.track)}
+      onTouchEnd={props.out}
+      onMouseOut={props.out}
+    >
       <img alt="album art" width={64} height={64} src={props.track && props.track.album && (props.track.album.images[2] || props.track.album.images[1] || props.track.album.images[0]).url} />
     </Media.Left>
     <Media.Body>
