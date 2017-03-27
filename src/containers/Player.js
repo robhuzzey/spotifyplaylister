@@ -11,27 +11,29 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    load: () => {
-      dispatch(loadTrack())
-    },
-    unload: () => {
-      dispatch(unloadTrack())
-    },
-    addSeed: track => {
-      dispatch(addSeed(track))
-    }
-  }
+  return {}
 }
 
-const Player = props => (
-  <Panel>
-    <TrackWithControls track={props.track} />
-    <audio autoPlay src={props.track.preview_url || ''}>
-      Your browser does not support the <code>audio</code> element.
-    </audio>
-  </Panel>
-)
+class Player extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.audio = new Audio()
+  }
+
+  componentDidUpdate() {
+    this.audio.pause()
+    this.audio = new Audio(this.props.track.preview_url)
+    this.audio && this.audio.play()
+  }
+  render() {
+    return (
+      <Panel>
+        <TrackWithControls track={this.props.track} />
+      </Panel>
+    )
+  }
+}
 
 export default connect(
   mapStateToProps,
