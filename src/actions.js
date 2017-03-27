@@ -18,6 +18,10 @@ export const IS_AUTHENTICATED = 'IS_AUTHENTICATED'
 export const LOAD_TRACK = 'LOAD_TRACK'
 export const UNLOAD_TRACK = 'UNLOAD_TRACK'
 
+export const ADD_USER_TRACK_REQUEST = 'ADD_USER_TRACK_REQUEST'
+export const ADD_USER_TRACK_RESPONSE = 'ADD_USER_TRACK_RESPONSE'
+export const ADD_USER_TRACK_FAILED = 'ADD_USER_TRACK_FAILED'
+
 const parseHash = hash => {
   return hash.replace('#','')
     .split('&')
@@ -177,6 +181,27 @@ export const unloadTrack = () => {
   return (dispatch, getState) => {
     dispatch({
       type: UNLOAD_TRACK
+    })
+  }
+}
+
+export const addUserTrack = track => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: ADD_USER_TRACK_REQUEST,
+      track
+    })
+    // Add tracks to the signed in user's Your Music library
+    spotify.addToMySavedTracks([track.id]).then(function() {
+      dispatch({
+        type: ADD_USER_TRACK_RESPONSE,
+        track
+      })
+    }, function(err) {
+      dispatch({
+        type: ADD_USER_TRACK_FAILED,
+        track
+      })
     })
   }
 }

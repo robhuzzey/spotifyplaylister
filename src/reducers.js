@@ -14,14 +14,19 @@ import {
   SET_ACCESS_TOKEN,
   IS_AUTHENTICATED,
   LOAD_TRACK,
-  UNLOAD_TRACK
+  UNLOAD_TRACK,
+  ADD_USER_TRACK_REQUEST,
+  ADD_USER_TRACK_RESPONSE,
+  ADD_USER_TRACK_FAILED
 } from './actions'
 
 const userTracks = (state = {
   items: [],
   isFetching: false,
   total: 0,
-  count: 0
+  count: 0,
+  addingUserTrack: null,
+  addingUserTrackFailed: null
 }, action) => {
   switch (action.type) {
     case REQUEST_ALL_TRACKS:
@@ -40,6 +45,23 @@ const userTracks = (state = {
       return Object.assign({}, state, {
         total: action.total,
         isFetching: false
+      })
+    case ADD_USER_TRACK_REQUEST:
+      return Object.assign({}, state, {
+        addingUserTrack: action.track.id
+      })
+    case ADD_USER_TRACK_RESPONSE:
+      return Object.assign({}, state, {
+        items: [
+          action.track,
+          ...state.items
+        ],
+        addedUserTrack: action.track.id
+      })
+    case ADD_USER_TRACK_FAILED:
+      return Object.assign({}, state, {
+        addingUserTrack: null,
+        addingUserTrackFailed: action.track.id
       })
     default:
       return state
