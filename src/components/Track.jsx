@@ -1,13 +1,12 @@
 import React from 'react'
-import { Media } from 'react-bootstrap'
 export default (props) => (
-  <Media>
-    <Media.Left>
-      <img alt="album art" width={64} height={64} src={props.track && props.track.album && (props.track.album.images[2] || props.track.album.images[1] || props.track.album.images[0]).url} />
-    </Media.Left>
-    <Media.Body>
-      <Media.Heading>{props.track.name} <small>{(props.track.artists || []).map(artist => artist.name).join(' / ')}</small></Media.Heading>
+  <div className="media">
+    <div className="media-left">
+      <img className="media-object" alt="album art" width={64} height={64} src={props.track && props.track.album && (props.track.album.images[2] || props.track.album.images[1] || props.track.album.images[0]).url} />
+    </div>
+    <div className="media-body">
+      <h4 className="media-heading">{props.track.name} <small>{(props.track.artists || []).map(artist => artist.name).join(' / ')}</small></h4>
       {props.children}
-    </Media.Body>
-  </Media>
+    </div>
+  </div>
 )

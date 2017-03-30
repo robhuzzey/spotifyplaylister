@@ -9,6 +9,14 @@ import { Button, ButtonGroup, Glyphicon } from 'react-bootstrap'
 
 import Track from '../components/Track.jsx'
 
+import IconButton from 'material-ui/IconButton'
+import PlayIcon from 'material-ui/svg-icons/av/play-arrow'
+import StopIcon from 'material-ui/svg-icons/av/stop'
+import AddIcon from 'material-ui/svg-icons/action/note-add'
+import DeleteIcon from 'material-ui/svg-icons/action/delete-forever'
+import LibraryAddIcon from 'material-ui/svg-icons/av/library-add'
+
+
 const mapStateToProps = (state, ownProps) => {
   return {
     isASeed: !!state.seeds.items.filter(seed => seed.id === ownProps.track.id).length,
@@ -40,25 +48,23 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const Controls = props => {
-  let addTrackText = props.addingUserTrack === props.track.id ? 'Adding track' : <span>Add track <Glyphicon glyph="plus" /></span>
-  if(props.addingUserTrackFailed === props.track.id) addTrackText = <span>Failed <Glyphicon glyph="remove" /></span>
-  if(props.addedUserTrack === props.track.id) addTrackText = <span>Added <Glyphicon glyph="ok" /></span>
+  let addToLibrary = <LibraryAddIcon />
+  if(props.addingUserTrack === props.track.id) addToLibrary = 'Adding'
+  if(props.addingUserTrackFailed === props.track.id) addToLibrary = 'Failed'
+  if(props.addedUserTrack === props.track.id) addToLibrary = 'Added'
+  const playStop = props.isPlaying ? props.unload : () => props.load(props.track);
+  const addRemove = props.isASeed ? () => props.removeSeed(props.track) : () => props.addSeed(props.track);
   return (
     <Track track={props.track} over={props.load} out={props.unload}>
-      <ButtonGroup>
-        {props.isPlaying ? (
-          <Button bsStyle="primary" onClick={props.unload}>Stop <Glyphicon glyph="stop" /></Button>
-        ) : (
-          <Button bsStyle="info" onClick={() => props.load(props.track)}>Play <Glyphicon glyph="play" /></Button>
-        )}
-        {props.isASeed ? (
-          <Button bsStyle="danger" onClick={() => props.removeSeed(props.track)}>Remove Seed <Glyphicon glyph="trash" /></Button>
-        ) : (
-          <Button bsStyle="success" onClick={() => props.addSeed(props.track)}>Add Seed <Glyphicon glyph="plus" /></Button>
-        )}
-
-        <Button bsStyle="default" onClick={() => props.addUserTrack(props.track)}>{addTrackText}</Button>
-      </ButtonGroup>
+      <IconButton mini={true} onTouchTap={playStop} secondary={props.isPlaying}>
+        {props.isPlaying ? <StopIcon /> : <PlayIcon />}
+      </IconButton>
+      <IconButton mini={true} onTouchTap={addRemove} secondary={props.isASeed}>
+        {props.isASeed ? <DeleteIcon /> : <AddIcon />}
+      </IconButton>
+      <IconButton mini={true} onTouchTap={() => props.addUserTrack(props.track)}>
+        {addToLibrary}
+      </IconButton>
     </Track>
   )
 }

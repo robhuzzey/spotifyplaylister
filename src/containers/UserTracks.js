@@ -7,7 +7,8 @@ import { loadTrack } from '../actions/player'
 import { getUsersTracks } from '../actions/getUsersTracks'
 
 
-import { Button, ProgressBar } from 'react-bootstrap';
+import LinearProgress from 'material-ui/LinearProgress'
+import RaisedButton from 'material-ui/RaisedButton'
 
 import TrackWithControls from '../components/TrackWithControls.jsx'
 
@@ -38,14 +39,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const UserTracks = props => (
   <div>
-    {props.tracks.length === 0 && <Button onClick={props.getUsersTracks}>Get tracks</Button>}
+    
+    {props.tracks.length === 0 && <RaisedButton label="Get Tracks (probably want this automaticly happening)" fullWidth={true} onClick={props.getUsersTracks} />}
     {props.isFetching ? (
-      <ProgressBar now={props.count} max={props.totalTracks} label={`Loading ${props.count} of ${props.totalTracks}`} />
+      <LinearProgress mode="determinate" value={props.count} max={props.totalTracks} />
     ) : (
       <div>
         {props.tracks.map((track, i) => {
           return (
-            <LazyLoad height={100} key={i}>
+            <LazyLoad height={100} offset={100} key={i}>
               <TrackWithControls track={track} />
             </LazyLoad>
           )

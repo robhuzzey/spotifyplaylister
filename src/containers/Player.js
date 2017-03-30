@@ -29,9 +29,10 @@ class Player extends React.Component {
   }
   render() {
     return (
-      <Panel>
+      <div>
+        <h1>Spotify Playlister</h1>
         <TrackWithControls track={this.props.track} />
-      </Panel>
+      </div>
     )
   }
 }

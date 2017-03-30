@@ -5,9 +5,11 @@ import { getRecommendations } from '../actions/recommendations'
 import { removeSeed } from '../actions/seed'
 import { loadTrack } from '../actions/player'
 
-import { Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap'
 
-import TrackWithControls from '../components/TrackWithControls.jsx'
+import Track from '../components/Track.jsx'
+
+import RaisedButton from 'material-ui/RaisedButton'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -20,8 +22,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     play: (url, name) => {
       dispatch(loadTrack(url, name))
     },
-    removeSeed: trackId => {
-      dispatch(removeSeed(trackId))
+    removeSeed: track => {
+      dispatch(removeSeed(track))
     },
     getRecommendations: () => {
       dispatch(getRecommendations())
@@ -33,16 +35,11 @@ const Seeds = props => (
   <div>
     {props.items.length > 0 && <Button onClick={props.getRecommendations}>Get suggestions</Button>}
     {props.items.map((track, i) => {
-      const divider = i >= 4 ? (
-        <div>
-          <hr />
-          <p>Only those above this line are considered as seeds when recommending tracks</p>
-        </div>
-      ) : ''
       return (
-        <div key={i}>
-          <TrackWithControls track={track} />
-          {divider}
+        <div className="panel-body" key={i}>
+          <Track track={track}>
+            <RaisedButton label="Delete" fullWidth={true} onTouchTap={() => props.removeSeed(track)} />
+          </Track>
         </div>
       )
     })}
