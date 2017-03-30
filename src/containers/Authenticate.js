@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { authenticate, checkAccessToken } from '../actions'
+import { checkAccessToken, authenticate } from '../actions/authenticate'
 
 const mapStateToProps = (state, ownProps) => {
   return {

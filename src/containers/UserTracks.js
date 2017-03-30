@@ -1,6 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addSeed, getUsersTracks, loadTrack } from '../actions'
+
+
+import { addSeed, loadTrack } from '../actions'
+import { getUsersTracks } from '../actions/getUsersTracks'
+
+
+
 import { Button, ProgressBar } from 'react-bootstrap';
 
 import TrackWithControls from '../components/TrackWithControls.jsx'

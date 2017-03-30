@@ -2,14 +2,17 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
-import thunkMiddleware from 'redux-thunk'
+import thunk from 'redux-thunk'
 import rootReducer from './reducers'
+
+import SpotifyWebApi from 'spotify-web-api-node'
+const spotifyApi = new SpotifyWebApi()
 
 const store = createStore(
   rootReducer,
   {},
   applyMiddleware(
-    thunkMiddleware
+    thunk.withExtraArgument({spotifyApi})
   )
 )
 
