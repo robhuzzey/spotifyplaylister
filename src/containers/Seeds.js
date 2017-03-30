@@ -1,7 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { loadTrack, removeSeed, getRecommendations } from '../actions'
+import { getRecommendations } from '../actions/recommendations'
+import { removeSeed } from '../actions/seed'
+import { loadTrack } from '../actions/player'
 
 import { Button } from 'react-bootstrap';
 

@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { loadTrack, unloadTrack, addSeed, removeSeed } from '../actions'
+import { addSeed, removeSeed } from '../actions/seed'
+import { loadTrack, unloadTrack } from '../actions/player'
 import { addUserTrack } from '../actions/addUserTrack'
 
 import { Button, ButtonGroup, Glyphicon } from 'react-bootstrap'

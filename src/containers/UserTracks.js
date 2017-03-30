@@ -2,9 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 
-import { addSeed, loadTrack } from '../actions'
+import { addSeed } from '../actions/seed'
+import { loadTrack } from '../actions/player'
 import { getUsersTracks } from '../actions/getUsersTracks'
-
 
 
 import { Button, ProgressBar } from 'react-bootstrap';

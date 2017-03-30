@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { loadTrack, unloadTrack, addSeed } from '../actions'
+import { addSeed } from '../actions/seed'
+import { loadTrack, unloadTrack } from '../actions/player'
 import { Button, ButtonGroup, Panel } from 'react-bootstrap'
 import TrackWithControls from '../components/TrackWithControls.jsx'
 

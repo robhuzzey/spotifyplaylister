@@ -5,7 +5,7 @@ import TrackWithControls from '../components/TrackWithControls.jsx'
 
 import { Button } from 'react-bootstrap'
 
-import { getRecommendations } from '../actions'
+import { getRecommendations } from '../actions/recommendations'
 
 const mapStateToProps = (state, ownProps) => {
   return {
