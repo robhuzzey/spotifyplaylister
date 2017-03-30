@@ -5,6 +5,8 @@ import { Button, ProgressBar } from 'react-bootstrap';
 
 import TrackWithControls from '../components/TrackWithControls.jsx'
 
+import LazyLoad from 'react-lazyload'
+
 const mapStateToProps = (state, ownProps) => {
   return {
     tracks: state.userTracks.items,
@@ -36,7 +38,11 @@ const UserTracks = props => (
     ) : (
       <div>
         {props.tracks.map((track, i) => {
-          return <TrackWithControls track={track} key={i} />
+          return (
+            <LazyLoad height={100} key={i}>
+              <TrackWithControls track={track} />
+            </LazyLoad>
+          )
         })}
       </div>
     )}
