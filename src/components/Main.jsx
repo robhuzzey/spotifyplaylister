@@ -8,9 +8,6 @@ import Player from '../containers/Player'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import AppBar from 'material-ui/AppBar'
 import {Tabs, Tab} from 'material-ui/Tabs'
-// From https://github.com/oliviertassinari/react-swipeable-views
-import SwipeableViews from 'react-swipeable-views'
-
 import Drawer from 'material-ui/Drawer'
 
 class Main extends React.Component {
@@ -20,14 +17,14 @@ class Main extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.toggleDrawer = this.toggleDrawer.bind(this)
     this.state = {
-      slideIndex: 0,
+      slideName: 'userTracks',
       open: false
     }
   }
 
-  handleChange(slideIndex) {
+  handleChange(slideName) {
     this.setState({
-      slideIndex
+      slideName
     })
   }
 
@@ -47,20 +44,18 @@ class Main extends React.Component {
           <Authenticate>
             <Tabs
               onChange={this.handleChange}
-              value={this.state.slideIndex}>
-              <Tab label="Tracks" value={0} />
-              <Tab label="Suggestions" value={1} />
+              value={this.state.slideName}>
+              <Tab label="Tracks" value="userTracks">
+                <div className="panel-body">
+                  <UserTracks />
+                </div>
+              </Tab>
+              <Tab label="Suggestions" value="suggestions">
+                <div className="panel-body">
+                  <Recommendations />
+                </div>
+              </Tab>
             </Tabs>
-            <SwipeableViews
-              index={this.state.slideIndex}
-              onChangeIndex={this.handleChange}>
-              <div className="panel-body">
-                <UserTracks />
-              </div>
-              <div className="panel-body">
-                <Recommendations />
-              </div>
-            </SwipeableViews>
           </Authenticate>
 
           <Drawer open={this.state.open} docked={false} onRequestChange={() => this.setState({open: false})}>

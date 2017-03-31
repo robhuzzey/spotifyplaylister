@@ -6,9 +6,8 @@ import { addSeed } from '../actions/seed'
 import { loadTrack } from '../actions/player'
 import { getUsersTracks } from '../actions/getUsersTracks'
 
-
 import LinearProgress from 'material-ui/LinearProgress'
-import RaisedButton from 'material-ui/RaisedButton'
+import Divider from 'material-ui/Divider'
 
 import TrackWithControls from '../components/TrackWithControls.jsx'
 
@@ -37,26 +36,37 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-const UserTracks = props => (
-  <div>
-    
-    {props.tracks.length === 0 && <RaisedButton label="Get Tracks (probably want this automaticly happening)" fullWidth={true} onClick={props.getUsersTracks} />}
-    {props.isFetching ? (
-      <LinearProgress mode="determinate" value={props.count} max={props.totalTracks} />
-    ) : (
+class UserTracks extends React.Component {
+  componentDidMount() {
+    this.props.getUsersTracks()
+  }
+
+  render() {
+    return (
       <div>
-        {props.tracks.map((track, i) => {
-          return (
-            <LazyLoad height={100} offset={100} key={i}>
-              <TrackWithControls track={track} />
-            </LazyLoad>
-          )
-        })}
+        {this.props.isFetching ? (
+          <LinearProgress mode="determinate" value={this.props.count} max={this.props.totalTracks} />
+        ) : (
+          <div>
+            {this.props.tracks.map((track, i) => {
+              return (
+                <LazyLoad height={100} offset={100} key={i}>
+                  <div>
+                    <div className="panel-body">
+                      <TrackWithControls track={track} />
+                    </div>
+                    <Divider />
+                  </div>
+                </LazyLoad>
+              )
+            })}
+          </div>
+        )}
+        
       </div>
-    )}
-    
-  </div>
-)
+    )
+  }
+}
 
 export default connect(
   mapStateToProps,

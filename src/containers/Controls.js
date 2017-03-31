@@ -16,6 +16,9 @@ import AddIcon from 'material-ui/svg-icons/action/note-add'
 import DeleteIcon from 'material-ui/svg-icons/action/delete-forever'
 import LibraryAddIcon from 'material-ui/svg-icons/av/library-add'
 
+// From https://github.com/oliviertassinari/react-swipeable-views
+import SwipeableViews from 'react-swipeable-views'
+
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -47,26 +50,62 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-const Controls = props => {
-  let addToLibrary = <LibraryAddIcon />
-  if(props.addingUserTrack === props.track.id) addToLibrary = 'Adding'
-  if(props.addingUserTrackFailed === props.track.id) addToLibrary = 'Failed'
-  if(props.addedUserTrack === props.track.id) addToLibrary = 'Added'
-  const playStop = props.isPlaying ? props.unload : () => props.load(props.track);
-  const addRemove = props.isASeed ? () => props.removeSeed(props.track) : () => props.addSeed(props.track);
-  return (
-    <Track track={props.track} over={props.load} out={props.unload}>
-      <IconButton mini={true} onTouchTap={playStop} secondary={props.isPlaying}>
-        {props.isPlaying ? <StopIcon /> : <PlayIcon />}
-      </IconButton>
-      <IconButton mini={true} onTouchTap={addRemove} secondary={props.isASeed}>
-        {props.isASeed ? <DeleteIcon /> : <AddIcon />}
-      </IconButton>
-      <IconButton mini={true} onTouchTap={() => props.addUserTrack(props.track)}>
-        {addToLibrary}
-      </IconButton>
-    </Track>
-  )
+class Controls extends React.Component {
+  
+  constructor(props) {
+    super(props)
+    this.handleSlideChange = this.handleSlideChange.bind(this)
+    this.state = {
+      slideIndex: 0
+    }
+  }
+
+  handleSlideChange(slideIndex) {
+    this.setState({
+      slideIndex
+    })
+  }
+
+  render() {
+    let addToLibrary = <LibraryAddIcon />
+    if(this.props.addingUserTrack === this.props.track.id) addToLibrary = 'Adding'
+    if(this.props.addingUserTrackFailed === this.props.track.id) addToLibrary = 'Failed'
+    if(this.props.addedUserTrack === this.props.track.id) addToLibrary = 'Added'
+    const playStop = () => {
+      this.handleSlideChange(0)
+      this.props.isPlaying ? this.props.unload() : this.props.load(this.props.track);
+    }
+    const addRemove = this.props.isASeed ? () => this.props.removeSeed(this.props.track) : () => this.props.addSeed(this.props.track);
+    return (
+      <div className="media">
+        <div className="media-left" onTouchTap={playStop}>
+          <img className="media-object" alt="album art" width={64} height={64} src={this.props.track && this.props.track.album && (this.props.track.album.images[2] || this.props.track.album.images[1] || this.props.track.album.images[0]).url} />
+        </div>
+        <div className="media-body">
+          <SwipeableViews
+            index={this.state.slideIndex}
+            onChangeIndex={this.handleSlideChange}
+            enableMouseEvents={true}>
+            <h4 className="media-heading" onTouchTap={playStop}>
+              <IconButton mini={true}secondary={this.props.isPlaying}>
+                {this.props.isPlaying ? <StopIcon /> : <PlayIcon />}
+              </IconButton>
+              {this.props.track.name}<br /><small>{(this.props.track.artists || []).map(artist => artist.name).join(' / ')}</small>
+            </h4>
+            <div>
+              <IconButton mini={true} onTouchTap={addRemove} secondary={this.props.isASeed}>
+                {this.props.isASeed ? <DeleteIcon /> : <AddIcon />}
+              </IconButton>
+              <IconButton mini={true} onTouchTap={() => this.props.addUserTrack(props.track)}>
+                {addToLibrary}
+              </IconButton>
+            </div>
+          </SwipeableViews>
+          
+        </div>
+      </div>
+    )
+  }
 }
 
 export default connect(
