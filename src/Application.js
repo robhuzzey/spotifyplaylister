@@ -16,7 +16,7 @@ const store = createStore(
   )
 )
 
-import Main from './components/Main.jsx'
+import Main from './containers/Main.jsx'
 
 (() => {
   render(

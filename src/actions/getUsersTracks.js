@@ -13,7 +13,7 @@ export const getUsersTracks = (offset = 0, limit = 50) => {
       limit,
       offset
     })
-    .then(function(data) {      
+    .then(data => {      
       dispatch({
         type: RECEIVE_TRACKS,
         data
@@ -56,7 +56,7 @@ export const getUsersTracks = (offset = 0, limit = 50) => {
         })
 
       }
-    }, function(err) {
+    }, err => {
       console.log('Something went wrong!', err)
     })
   }

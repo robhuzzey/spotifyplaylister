@@ -28,6 +28,9 @@ class Authenticate extends React.Component {
 
   componentDidUpdate() {
     this.props.checkAccessToken()
+    if(!this.props.isAuthenticated) {
+      this.props.authenticate()
+    }
   }
 
   render() {
@@ -36,7 +39,9 @@ class Authenticate extends React.Component {
         {this.props.isAuthenticated ?
           this.props.children
         :
-          (<button onClick={this.props.authenticate}>Authenticate</button>)
+          (
+            <p>This application requires authentication. Redirecting you now.</p>
+          )
         }
       </div>
     )

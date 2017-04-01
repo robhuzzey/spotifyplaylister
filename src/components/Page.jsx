@@ -5,7 +5,7 @@ export default (props) => (
     <Row>
       <Col xs={12} md={12}>
         <h2>{props.title}</h2>
-        {React.Children.only(props.children)}
+        {React.Children.toArray(props.children)}
       </Col>
     </Row>
   </Grid>

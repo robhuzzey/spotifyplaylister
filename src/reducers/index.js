@@ -6,6 +6,7 @@ import authenticate from './authenticate'
 import player from './player'
 import seeds from './seed'
 import recommendations from './recommendations'
+import navigation from './navigation'
 
 const rootReducer = combineReducers({
   albums,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   userTracks,
   seeds,
   recommendations,
-  player
+  player,
+  navigation
 })
 
 export default rootReducer

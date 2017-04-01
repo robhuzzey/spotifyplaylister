@@ -53,6 +53,7 @@ const Seeds = props => (
         })}
       </div>
     </Tracks>
+    <Button bsStyle="success" onClick={props.getRecommendations}>Get Suggestions</Button>
   </Page>
 )
 

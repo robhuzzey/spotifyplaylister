@@ -5,6 +5,9 @@ import Tracks from '../components/Tracks.jsx'
 import Track from '../components/Track.jsx'
 import Page from '../components/Page.jsx'
 
+import PlayControls from '../containers/PlayControls'
+import SeedControls from '../containers/SeedControls'
+
 import { Button } from 'react-bootstrap'
 
 import { getRecommendations } from '../actions/recommendations'
@@ -41,7 +44,12 @@ const Recommendations = props => (
         }
         {props.items.length > 0 && <Button onClick={props.getRecommendations}>Refresh suggestions</Button>}
         {props.items.map((track, i) => {
-          return <Track track={track} key={i} />
+          return (
+            <Track track={track} key={i}>
+              <PlayControls track={track} />
+              <SeedControls track={track} />
+            </Track>
+          )
         })}
       </div>
     </Tracks>

@@ -25,9 +25,11 @@ class Player extends React.Component {
   }
 
   componentDidUpdate() {
+    if(!this.audio) return
     this.audio.pause()
-    this.audio = new Audio(this.props.track.preview_url)
-    this.audio && this.audio.play()
+    // this.audio = new Audio(this.props.track.preview_url)
+    this.audio.src = this.props.track.preview_url || ''
+    this.audio.play()
   }
   render() {
     return (
