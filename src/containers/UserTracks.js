@@ -9,9 +9,14 @@ import { getUsersTracks } from '../actions/getUsersTracks'
 
 import { Button, ProgressBar } from 'react-bootstrap';
 
-import TrackWithControls from '../components/TrackWithControls.jsx'
+import Tracks from '../components/Tracks.jsx'
+import Track from '../components/Track.jsx'
 
-import LazyLoad from 'react-lazyload'
+import Page from '../components/Page.jsx'
+
+import PlayControls from '../containers/PlayControls'
+import SeedControls from '../containers/SeedControls'
+
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -36,25 +41,30 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-const UserTracks = props => (
-  <div>
-    {props.tracks.length === 0 && <Button onClick={props.getUsersTracks}>Get tracks</Button>}
-    {props.isFetching ? (
-      <ProgressBar now={props.count} max={props.totalTracks} label={`Loading ${props.count} of ${props.totalTracks}`} />
-    ) : (
-      <div>
-        {props.tracks.map((track, i) => {
-          return (
-            <LazyLoad height={100} key={i}>
-              <TrackWithControls track={track} />
-            </LazyLoad>
-          )
-        })}
-      </div>
-    )}
-    
-  </div>
-)
+class UserTracks extends React.Component {
+  componentDidMount() {
+    this.props.tracks.length === 0 && this.props.getUsersTracks()
+  }
+  render() {
+    if(this.props.isFetching) {
+      return <ProgressBar now={this.props.count} max={this.props.totalTracks} label={`Loading ${this.props.count} of ${this.props.totalTracks}`} />
+    }
+    return (
+      <Page title="Users tracks">
+        <Tracks>
+          {this.props.tracks.map((track, i) => {
+            return (
+              <Track track={track} key={i}>
+                <PlayControls track={track} />
+                <SeedControls track={track} />
+              </Track>
+            )
+          })}
+        </Tracks>
+      </Page>
+    )
+  }
+}
 
 export default connect(
   mapStateToProps,

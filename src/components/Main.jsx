@@ -5,55 +5,51 @@ import Recommendations from '../containers/Recommendations'
 import Authenticate from '../containers/Authenticate'
 import Player from '../containers/Player'
 
-import {Grid, Row, Col, Tabs, Tab} from 'react-bootstrap'
+import {Navbar, Nav, NavItem, Button} from 'react-bootstrap'
 
 class Main extends React.Component {
 
   constructor(props) {
     super(props)
-    this.handleChangeIndex = this.handleChangeIndex.bind(this)
+    this.handleChangePage = this.handleChangePage.bind(this)
     this.state = {
-      index: 0
+      page: 'tracks'
     }
   }
 
-  handleChangeIndex(index) {
+  handleChangePage(page) {
     this.setState({
-      index
+      page
     })
   }
 
   render() {
     return (
-      <Grid>
-        <Row>
-          <Col sm={12} md={12}>
-            <Grid>
-              <Row>
-                <Col sm={12} md={7}>
-                  <h1>Spotify Playlister</h1>
-                </Col>
-                <Col sm={12} md={5}>
-                  <Player />
-                </Col>
-              </Row>
-            </Grid>
-            <Authenticate>
-              <Tabs defaultActiveKey={this.state.index} activeKey={this.state.index} onSelect={this.handleChangeIndex} id="controlled-tab-example">
-                <Tab eventKey={0} title="Tracks">
-                  <UserTracks />
-                </Tab>
-                <Tab eventKey={1} title="Seeds">
-                  <Seeds />
-                </Tab>
-                <Tab eventKey={2} title="Suggestions">
-                  <Recommendations />
-                </Tab>
-              </Tabs>
-            </Authenticate>
-          </Col>
-        </Row>
-      </Grid>
+      <div>
+        <Navbar fixedTop collapseOnSelect>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <a href="#">Spotify Playlister</a>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+          <Navbar.Collapse>
+            <Nav activeKey={this.state.page}>
+              <NavItem eventKey='tracks' onClick={() => this.handleChangePage('tracks')}>Tracks</NavItem>
+              <NavItem eventKey='seeds' onClick={() => this.handleChangePage('seeds')}>Seeds</NavItem>
+              <NavItem eventKey='suggestions' onClick={() => this.handleChangePage('suggestions')}>Suggestions</NavItem>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+        <Authenticate>
+          {this.state.page === 'tracks' && <UserTracks />}
+          {this.state.page === 'seeds' && <Seeds />}
+          {this.state.page === 'suggestions' && <Recommendations />}
+        </Authenticate>
+        <Navbar fixedBottom>
+          <Player />
+        </Navbar>
+      </div>
     )
   }
 }

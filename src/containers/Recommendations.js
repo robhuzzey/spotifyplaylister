@@ -1,7 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import TrackWithControls from '../components/TrackWithControls.jsx'
+import Tracks from '../components/Tracks.jsx'
+import Track from '../components/Track.jsx'
+import Page from '../components/Page.jsx'
 
 import { Button } from 'react-bootstrap'
 
@@ -29,12 +31,21 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const Recommendations = props => (
-  <div>
-    {props.items.length > 0 && <Button onClick={props.getRecommendations}>Refresh suggestions</Button>}
-    {props.items.map((track, i) => {
-      return <TrackWithControls track={track} key={i} />
-    })}
-  </div>
+  <Page title="Recommendations">
+    <Tracks>
+      <div>
+        {props.items.length === 0 && 
+          <div>
+            Once you have added liked tracks, a list of recommendations based off that will appear here.
+          </div>
+        }
+        {props.items.length > 0 && <Button onClick={props.getRecommendations}>Refresh suggestions</Button>}
+        {props.items.map((track, i) => {
+          return <Track track={track} key={i} />
+        })}
+      </div>
+    </Tracks>
+  </Page>
 )
 
 export default connect(

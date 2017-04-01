@@ -2,8 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { addSeed } from '../actions/seed'
 import { loadTrack, unloadTrack } from '../actions/player'
-import { Button, ButtonGroup, Panel } from 'react-bootstrap'
-import TrackWithControls from '../components/TrackWithControls.jsx'
+import { Button } from 'react-bootstrap'
+import Track from '../components/Track.jsx'
+import PlayControls from '../containers/PlayControls'
+import SeedControls from '../containers/SeedControls'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -29,9 +31,14 @@ class Player extends React.Component {
   }
   render() {
     return (
-      <Panel>
-        <TrackWithControls track={this.props.track} />
-      </Panel>
+      <div>
+        {this.props.track.name && (
+          <Track track={this.props.track}>
+            <PlayControls track={this.props.track} />
+            <SeedControls track={this.props.track} />
+          </Track>
+        )}
+      </div>
     )
   }
 }
