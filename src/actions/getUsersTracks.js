@@ -4,6 +4,10 @@ export const RECEIVED_ALL_TRACKS = 'RECEIVED_ALL_TRACKS'
 export const RECEIVED_ALL_ALBUMS = 'RECEIVED_ALL_ALBUMS'
 export const RECEIVED_ALL_ARTISTS = 'RECEIVED_ALL_ARTISTS'
 
+import {
+  REQUEST_AUTHENTICATION
+} from './authenticate'
+
 export const getUsersTracks = (offset = 0, limit = 50) => {
   return (dispatch, getState, {spotifyApi}) => {
     dispatch({
@@ -56,7 +60,12 @@ export const getUsersTracks = (offset = 0, limit = 50) => {
         })
 
       }
-    }, err => {
+    }, err =>  {
+      if(err.statusCode === 401) {
+        dispatch({
+          type: REQUEST_AUTHENTICATION
+        })
+      }
       console.log('Something went wrong!', err)
     })
   }

@@ -5,7 +5,8 @@ import {
 
 const recommendations = (state = {
   items: [],
-  isLoading: false
+  isLoading: false,
+  count: 0
 }, action) => {
   switch (action.type) {
     case REQUEST_RECOMMENDATIONS:
@@ -15,7 +16,8 @@ const recommendations = (state = {
     case RECEIVE_RECOMMENDATIONS:
       return Object.assign({}, state, {
         isLoading: false,
-        items: action.data.body.tracks
+        items: action.data.body.tracks,
+        count: action.data.body.tracks.length
       })
     default:
       return state

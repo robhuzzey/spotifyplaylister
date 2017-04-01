@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { getRecommendations } from '../actions/recommendations'
 import { removeSeed } from '../actions/seed'
 import { loadTrack } from '../actions/player'
 
@@ -27,9 +26,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     removeSeed: trackId => {
       dispatch(removeSeed(trackId))
-    },
-    getRecommendations: () => {
-      dispatch(getRecommendations())
     }
   }
 }
@@ -38,22 +34,27 @@ const Seeds = props => (
   <Page title="Seeds">
     <Tracks>
       <div>
-        {props.items.length === 0 && 
-          <div>
-            Tracks you have liked will appear here for review before you move on to get suggestions based off them.
-          </div>
-        }
-        {props.items.map((track, i) => {
-          return (
-            <Track track={track} key={i}>
-              <PlayControls track={track} />
-              <SeedControls track={track} />
-            </Track>
+        {props.items.length === 0 ?
+          (
+            <div>
+              Tracks you have liked will appear here for review before you move on to get suggestions based off them.
+            </div>
+          ) : (
+            <div>
+              {props.items.map((track, i) => {
+                return (
+                  <Track track={track} key={i}>
+                    <PlayControls track={track} />
+                    <SeedControls track={track} />
+                  </Track>
+                )
+              })}
+            </div>
           )
-        })}
+        }
+        
       </div>
     </Tracks>
-    <Button bsStyle="success" onClick={props.getRecommendations}>Get Suggestions</Button>
   </Page>
 )
 

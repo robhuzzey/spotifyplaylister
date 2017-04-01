@@ -2,7 +2,7 @@ export const REQUEST_RECOMMENDATIONS = 'REQUEST_RECOMMENDATIONS'
 export const RECEIVE_RECOMMENDATIONS = 'RECEIVE_RECOMMENDATIONS'
 
 import {
-  CHANGE_PAGE
+  changePage
 } from './navigation'
 
 export const getRecommendations = () => {
@@ -20,11 +20,7 @@ export const getRecommendations = () => {
         type: RECEIVE_RECOMMENDATIONS,
         data
       })
-
-      dispatch({
-        type: CHANGE_PAGE,
-        pagename: 'recommendations'
-      })
+      dispatch(changePage('recommendations'))
     }, err => {
       console.log('Something went wrong!', err)
     })

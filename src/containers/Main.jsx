@@ -8,11 +8,12 @@ import Recommendations from './Recommendations'
 import Authenticate from './Authenticate'
 import Player from './Player'
 
-import {Navbar, Nav, NavItem, Button} from 'react-bootstrap'
+import {Navbar, Nav, NavItem, Badge} from 'react-bootstrap'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    page: state.navigation.page
+    page: state.navigation.page,
+    seedCount: state.seeds.count
   }
 }
 
@@ -35,9 +36,9 @@ const Main = props => (
       </Navbar.Header>
       <Navbar.Collapse>
         <Nav activeKey={props.page}>
-          <NavItem eventKey='tracks' onClick={() => props.changePage('tracks')}>Tracks</NavItem>
-          <NavItem eventKey='seeds' onClick={() => props.changePage('seeds')}>Seeds</NavItem>
-          <NavItem eventKey='recommendations' onClick={() => props.changePage('recommendations')}>Suggestions</NavItem>
+          <NavItem eventKey='tracks' onClick={() => props.changePage('tracks')}>1) Tracks</NavItem>
+          <NavItem eventKey='seeds' disabled={props.seedCount < 1} onClick={() => props.changePage('seeds')}>2) Seeds <Badge>{props.seedCount}</Badge></NavItem>
+          <NavItem eventKey='recommendations' disabled={props.seedCount < 1} onClick={() => props.changePage('recommendations')}>3) Suggestions</NavItem>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
