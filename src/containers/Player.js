@@ -1,8 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addSeed } from '../actions/seed'
-import { loadTrack, unloadTrack } from '../actions/player'
-import { Button } from 'react-bootstrap'
+import { unloadTrack } from '../actions/player'
 import Track from '../components/Track.jsx'
 import PlayControls from '../containers/PlayControls'
 import SeedControls from '../containers/SeedControls'
@@ -14,24 +12,40 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {}
+  return {
+    unloadTrack: () => {
+      dispatch(unloadTrack())
+    }
+  }
 }
 
 class Player extends React.Component {
 
   constructor(props) {
     super(props)
-    this.audio = new Audio()
+    this.audio = null
   }
 
   componentDidUpdate() {
-    if(!this.audio) return
-    this.audio.pause()
-    // this.audio = new Audio(this.props.track.preview_url)
-    this.audio.src = this.props.track.preview_url || ''
-    this.audio.play()
+    if(this.props.track.preview_url) {
+      const trackAudio = new Audio(this.props.track.preview_url)
+      trackAudio.oncanplay = () => {
+        trackAudio.play()
+        this.audio && this.audio.pause()
+        this.audio = trackAudio
+      }
+    }
+    if(this.audio) {
+      this.audio.onended = () => {
+        this.props.unloadTrack()
+      }
+      this.audio.onerror = () => {
+        alert('Audio failed to play')
+      }
+    }
   }
   render() {
+    console.log(this.props.track)
     return (
       <div>
         {this.props.track.name && (
