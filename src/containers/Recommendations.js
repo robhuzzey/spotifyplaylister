@@ -7,6 +7,7 @@ import Page from '../components/Page.jsx'
 
 import PlayControls from '../containers/PlayControls'
 import SeedControls from '../containers/SeedControls'
+import PlaylistControls from '../containers/PlaylistControls'
 
 import { Button } from 'react-bootstrap'
 
@@ -48,6 +49,7 @@ const Recommendations = props => (
             <Track track={track} key={i}>
               <PlayControls track={track} />
               <SeedControls track={track} />
+              <PlaylistControls track={track} />
             </Track>
           )
         })}

@@ -42,10 +42,16 @@ const treeShake = new webpack.LoaderOptionsPlugin({
   debug: false
 })
 
+const spotifyRedirectURI = new webpack.DefinePlugin({
+  __SPOTIFY_REDIRECT_URI__: process.env.WEBPACK_DEV ? "'http://localhost:8080'" : "'http://www.robhuzzey.co.uk/spotifyplaylister'"
+})
+
 // This removes the locale strings from Moment.js to reduce the file size on minification
 const squishMoment = new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
 
-const plugins = []
+const plugins = [
+  spotifyRedirectURI
+]
 if (!process.env.WEBPACK_DEV) {
   plugins.unshift(minifyReact, uglifyPlugin, squishMoment, treeShake)
 }

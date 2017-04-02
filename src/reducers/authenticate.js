@@ -13,7 +13,7 @@ const authenticate = (state = {
 }, action) => {
   switch (action.type) {
     case REQUEST_AUTHENTICATION:
-      const redirectUri = encodeURIComponent('http://www.robhuzzey.co.uk/spotifyplaylister/');
+      const redirectUri = encodeURIComponent(__SPOTIFY_REDIRECT_URI__);
       const clientId = '214aa492fc5142cda977c15cf3fb40c6';
       const scopes = encodeURIComponent([
         'user-library-read',
