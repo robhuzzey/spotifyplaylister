@@ -8,7 +8,8 @@ import { Button, Glyphicon } from 'react-bootstrap'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    isPlaying: ownProps.track.id === state.player.track.id,
+    isThisTrack: ownProps.track.id === state.player.track.id,
+    isLoaded: state.player.isLoaded,
     addingUserTrack: state.userTracks.addingUserTrack,
     addedUserTrack: state.userTracks.addedUserTrack,
     addingUserTrackFailed: state.userTracks.addingUserTrackFailed
@@ -30,13 +31,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const PlayControls = props => {
-  let addTrackText = props.addingUserTrack === props.track.id ? 'Adding track' : <span>Add track <Glyphicon glyph="plus" /></span>
-  if(props.addingUserTrackFailed === props.track.id) addTrackText = <span>Failed <Glyphicon glyph="remove" /></span>
-  if(props.addedUserTrack === props.track.id) addTrackText = <span>Added <Glyphicon glyph="ok" /></span>
   return (
     <span>
-      {props.isPlaying ? (
-        <Button bsStyle="default" onClick={props.unload}><Glyphicon glyph="stop" /></Button>
+      {props.isThisTrack ? (
+        <span>
+          {props.isLoaded ? (
+            <Button bsStyle="default" onClick={props.unload}><Glyphicon glyph="stop" /></Button>
+          ) : (
+            <Button bsStyle="default" onClick={props.unload}><Glyphicon glyph="hourglass" /></Button>
+          )}
+        </span>
       ) : (
         <Button bsStyle="default" onClick={() => props.load(props.track)}><Glyphicon glyph="play" /></Button>
       )}

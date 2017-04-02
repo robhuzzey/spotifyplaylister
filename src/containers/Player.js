@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { unloadTrack } from '../actions/player'
+import { unloadTrack, trackLoaded } from '../actions/player'
 import Track from '../components/Track.jsx'
 import PlayControls from '../containers/PlayControls'
 import SeedControls from '../containers/SeedControls'
@@ -15,6 +15,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     unloadTrack: () => {
       dispatch(unloadTrack())
+    },
+    trackLoaded: () => {
+      dispatch(trackLoaded())
     }
   }
 }
@@ -29,14 +32,15 @@ class Player extends React.Component {
   componentDidUpdate() {
     if(this.props.track.preview_url) {
       const trackAudio = new Audio(this.props.track.preview_url)
+      trackAudio.onended = () => {
+        this.props.unloadTrack()
+      }
+      trackAudio.onerror = () => {
+        alert('Audio failed to play')
+      }
       trackAudio.oncanplay = () => {
         trackAudio.play()
-        trackAudio.onended = () => {
-          this.props.unloadTrack()
-        }
-        trackAudio.onerror = () => {
-          alert('Audio failed to play')
-        }
+        this.props.trackLoaded()
         this.audio && this.audio.pause()
         this.audio = trackAudio
       }

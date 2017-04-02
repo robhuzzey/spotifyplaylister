@@ -1,19 +1,27 @@
 import {
   LOAD_TRACK,
-  UNLOAD_TRACK
+  UNLOAD_TRACK,
+  TRACK_LOADED
 } from '../actions/player'
 
 const player = (state = {
-  track: {}
+  track: {},
+  isLoaded: false
 }, action) => {
   switch (action.type) {
     case LOAD_TRACK:
       return Object.assign({}, state, {
-        track: action.track
+        track: action.track,
+        isLoaded: false
       })
     case UNLOAD_TRACK:
       return Object.assign({}, state, {
-        track: {}
+        track: {},
+        isLoaded: false
+      })
+    case TRACK_LOADED:
+      return Object.assign({}, state, {
+        isLoaded: true
       })
     default:
       return state
