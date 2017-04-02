@@ -31,18 +31,22 @@ class Player extends React.Component {
       const trackAudio = new Audio(this.props.track.preview_url)
       trackAudio.oncanplay = () => {
         trackAudio.play()
+        trackAudio.onended = () => {
+          this.props.unloadTrack()
+        }
+        trackAudio.onerror = () => {
+          alert('Audio failed to play')
+        }
         this.audio && this.audio.pause()
         this.audio = trackAudio
       }
-    }
-    if(this.audio) {
-      this.audio.onended = () => {
-        this.props.unloadTrack()
-      }
-      this.audio.onerror = () => {
-        alert('Audio failed to play')
+    } else {
+      if(this.audio) {
+        this.audio.pause()
+        this.audio = null
       }
     }
+    
   }
   render() {
     console.log(this.props.track)
