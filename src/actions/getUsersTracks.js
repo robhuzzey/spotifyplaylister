@@ -1,12 +1,14 @@
 export const REQUEST_ALL_TRACKS = 'REQUEST_ALL_TRACKS'
 export const RECEIVE_TRACKS = 'RECEIVE_TRACKS'
 export const RECEIVED_ALL_TRACKS = 'RECEIVED_ALL_TRACKS'
-export const RECEIVED_ALL_ALBUMS = 'RECEIVED_ALL_ALBUMS'
-export const RECEIVED_ALL_ARTISTS = 'RECEIVED_ALL_ARTISTS'
 
 import {
   REQUEST_AUTHENTICATION
 } from './authenticate'
+
+import {
+  getArtists
+} from './getArtists'
 
 export const getUsersTracks = (offset = 0, limit = 50) => {
   return (dispatch, getState, {spotifyApi}) => {
@@ -17,7 +19,7 @@ export const getUsersTracks = (offset = 0, limit = 50) => {
       limit,
       offset
     })
-    .then(data => {      
+    .then(data => { 
       dispatch({
         type: RECEIVE_TRACKS,
         data
@@ -32,33 +34,14 @@ export const getUsersTracks = (offset = 0, limit = 50) => {
           total: items.length
         })
 
-        const albums = items.map(item => {
-          return item.album
-        }).filter((obj, pos, arr) => {
-          return arr.map(mapObj => mapObj.id).indexOf(obj.id) === pos
-        });
-
-        dispatch({
-          type: RECEIVED_ALL_ALBUMS,
-          albums
-        })
-
-        const allArtists = [];
-        albums.map(album => {
-          album.artists.map(artist => {
-            allArtists.push(artist)
+        const artistIds = []
+        items.map(item => {
+          item.artists.map(artist => {
+            artistIds.push(artist.id)
           })
-        })
-
-        const artists = allArtists.filter((obj, pos, arr) => {
-          return arr.map(mapObj => mapObj.id).indexOf(obj.id) === pos
         });
 
-        dispatch({
-          type: RECEIVED_ALL_ARTISTS,
-          artists
-        })
-
+        dispatch(getArtists(artistIds.filter((v, i, a) => a.indexOf(v) === i)))
       }
     }, err =>  {
       if(err.statusCode === 401) {

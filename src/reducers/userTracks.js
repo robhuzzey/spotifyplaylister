@@ -5,6 +5,10 @@ import {
 } from '../actions/getUsersTracks'
 
 import {
+  RECEIVED_ALL_ARTISTS
+} from '../actions/getArtists'
+
+import {
   ADD_USER_TRACK_REQUEST,
   ADD_USER_TRACK_RESPONSE,
   ADD_USER_TRACK_FAILED
@@ -19,6 +23,17 @@ const userTracks = (state = {
   addingUserTrackFailed: null
 }, action) => {
   switch (action.type) {
+    case RECEIVED_ALL_ARTISTS:
+      const tracksForArtists = state.items
+      tracksForArtists.map(track => {
+        const trackArtistIds = track.artists.map(artist => artist.id)
+        const artistGenres = (action.items.find(artist => trackArtistIds.indexOf(artist.id) !== -1) || {}).genres
+        track.genres = (track.genres || []).concat(artistGenres)
+        return track
+      })
+      return Object.assign({}, state, {
+        items: tracksForArtists
+      })
     case REQUEST_ALL_TRACKS:
       return Object.assign({}, state, {
         isFetching: true
