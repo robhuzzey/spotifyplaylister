@@ -8,6 +8,8 @@ import { getUsersTracks } from '../actions/getUsersTracks'
 import { addGenre, removeGenre } from '../actions/genre'
 
 import { Button, ProgressBar, Badge } from 'react-bootstrap';
+import Select from 'react-select'
+import 'react-select/dist/react-select.css'
 
 import Tracks from '../components/Tracks.jsx'
 import Track from '../components/Track.jsx'
@@ -25,7 +27,8 @@ const mapStateToProps = (state, ownProps) => {
     totalTracks: state.userTracks.total,
     count: state.userTracks.count,
     genresLoading: state.genres.loading,
-    genre: state.genres.genre
+    genre: state.genres.genre,
+    genres: state.genres.all
   }
 }
 
@@ -62,19 +65,29 @@ class UserTracks extends React.Component {
     }
     return (
       <Page title="Users tracks">
+        <Select
+          placeholder={this.props.genresLoading ? 'Loading...' : 'Please Select'}
+          value={this.props.genre}
+          options={this.props.genres.map(genre => {
+            return {
+              label: `${genre.name} ${genre.count}`,
+              value: genre.name
+            }
+          })}
+          onChange={option => option && option.value ? this.props.addGenre(option.value) : this.props.removeGenre()} />
         <Tracks>
           {this.props.tracks.filter(track => {
             if(this.props.genre) {
               return track.genres.indexOf(this.props.genre) !== -1
             }
-            return track
+            // return track
           }).map((track, i) => {
             return (
               <Track track={track} key={i}>
                 <PlayControls track={track} />
                 <SeedControls track={track} />
                 <p>Genres: {this.props.genresLoading && '...loading'}{(track.genres || []).map((genre, i) => {
-                  return <Badge key={i} onClick={() => this.props.genre === genre ? this.props.removeGenre() : this.props.addGenre(genre)}>{genre} {this.props.genre === genre && 'x'}</Badge>
+                  return <Badge key={i}>{genre} {this.props.genre === genre && 'x'}</Badge>
                 })}</p>
               </Track>
             )
