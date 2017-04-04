@@ -5,11 +5,9 @@ import { connect } from 'react-redux'
 import { addSeed } from '../actions/seed'
 import { loadTrack } from '../actions/player'
 import { getUsersTracks } from '../actions/getUsersTracks'
-import { addGenre, removeGenre } from '../actions/genre'
+import { addGenre, removeGenre, toggleList } from '../actions/genre'
 
-import { Button, ProgressBar, Badge } from 'react-bootstrap';
-import Select from 'react-select'
-import 'react-select/dist/react-select.css'
+import { Button, ProgressBar, Badge, Panel, ListGroup, ListGroupItem } from 'react-bootstrap'
 
 import Tracks from '../components/Tracks.jsx'
 import Track from '../components/Track.jsx'
@@ -28,7 +26,8 @@ const mapStateToProps = (state, ownProps) => {
     count: state.userTracks.count,
     genresLoading: state.genres.loading,
     genre: state.genres.genre,
-    genres: state.genres.all
+    genres: state.genres.all,
+    listGenres: state.genres.showList
   }
 }
 
@@ -48,6 +47,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     removeGenre: () => {
       dispatch(removeGenre())
+    },
+    toggleGenreList: () => {
+      dispatch(toggleList())
     }
   }
 }
@@ -65,16 +67,14 @@ class UserTracks extends React.Component {
     }
     return (
       <Page title="Users tracks">
-        <Select
-          placeholder={this.props.genresLoading ? 'Loading...' : 'Please Select'}
-          value={this.props.genre}
-          options={this.props.genres.map(genre => {
-            return {
-              label: `${genre.name} ${genre.count}`,
-              value: genre.name
-            }
-          })}
-          onChange={option => option && option.value ? this.props.addGenre(option.value) : this.props.removeGenre()} />
+        <p><Button onClick={this.props.toggleGenreList}>Show Genres</Button> : {this.props.genre}</p>
+        <Panel collapsible expanded={this.props.listGenres}>
+          <ListGroup>
+            {this.props.genres.map((genre, i) => {
+              return <ListGroupItem key={i} bsStyle={genre === this.props.genre ? "success" : "info"} onClick={() => genre === this.props.genre ? this.props.removeGenre() : this.props.addGenre(genre.name)}>{genre.name} <Badge>{genre.count}</Badge></ListGroupItem>
+            })}
+          </ListGroup>
+        </Panel>
         <Tracks>
           {this.props.tracks.filter(track => {
             if(this.props.genre) {
@@ -86,9 +86,9 @@ class UserTracks extends React.Component {
               <Track track={track} key={i}>
                 <PlayControls track={track} />
                 <SeedControls track={track} />
-                <p>Genres: {this.props.genresLoading && '...loading'}{(track.genres || []).map((genre, i) => {
+                {/*<p>Genres: {this.props.genresLoading && '...loading'}{(track.genres || []).map((genre, i) => {
                   return <Badge key={i}>{genre} {this.props.genre === genre && 'x'}</Badge>
-                })}</p>
+                })}</p>*/}
               </Track>
             )
           })}

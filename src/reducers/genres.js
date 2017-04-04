@@ -1,6 +1,7 @@
 import {
   ADD_GENRE,
-  REMOVE_GENRE
+  REMOVE_GENRE,
+  TOGGLE_LIST
 } from '../actions/genre'
 
 import {
@@ -11,16 +12,23 @@ import {
 const genres = (state = {
   genre: null,
   loading: false,
-  all: []
+  all: [],
+  showList: false
 }, action) => {
   switch (action.type) {
+    case TOGGLE_LIST:
+      return Object.assign({}, state, {
+        showList: !state.showList
+      })
     case ADD_GENRE:
       return Object.assign({}, state, {
-        genre: action.genre
+        genre: action.genre,
+        showList: false
       })
     case REMOVE_GENRE:
       return Object.assign({}, state, {
-        genre: null
+        genre: null,
+        showList: false
       })
     case RECEIVED_ALL_ARTISTS:
       const all = []
