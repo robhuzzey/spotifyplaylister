@@ -12,6 +12,7 @@ import Page from '../components/Page.jsx'
 
 import PlayControls from '../containers/PlayControls'
 import SeedControls from '../containers/SeedControls'
+import PlaylistControls from '../containers/PlaylistControls'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -31,7 +32,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const Seeds = props => (
-  <Page title="Seeds">
     <Tracks>
       <div>
         {props.items.length === 0 ?
@@ -46,6 +46,7 @@ const Seeds = props => (
                   <Track track={track} key={i}>
                     <PlayControls track={track} />
                     <SeedControls track={track} />
+                    <PlaylistControls track={track} />
                   </Track>
                 )
               })}
@@ -55,7 +56,6 @@ const Seeds = props => (
         
       </div>
     </Tracks>
-  </Page>
 )
 
 export default connect(

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
+import Infinite from 'react-infinite'
 
 import { addSeed } from '../actions/seed'
 import { loadTrack } from '../actions/player'
@@ -16,7 +16,6 @@ import Page from '../components/Page.jsx'
 
 import PlayControls from '../containers/PlayControls'
 import SeedControls from '../containers/SeedControls'
-
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -67,31 +66,34 @@ class UserTracks extends React.Component {
     }
     return (
       <Page title="Users tracks">
-        <p><Button onClick={this.props.toggleGenreList}>Show Genres</Button> : {this.props.genre}</p>
+        <p><Button onClick={this.props.toggleGenreList}>Filter by: </Button> : {this.props.genre}</p>
         <Panel collapsible expanded={this.props.listGenres}>
           <ListGroup>
+            <ListGroupItem bsStyle="danger" onClick={() => this.props.removeGenre()}>Clear</ListGroupItem>
             {this.props.genres.map((genre, i) => {
               return <ListGroupItem key={i} bsStyle={genre === this.props.genre ? "success" : "info"} onClick={() => genre === this.props.genre ? this.props.removeGenre() : this.props.addGenre(genre.name)}>{genre.name} <Badge>{genre.count}</Badge></ListGroupItem>
             })}
           </ListGroup>
         </Panel>
         <Tracks>
-          {this.props.tracks.filter(track => {
-            if(this.props.genre) {
-              return track.genres.indexOf(this.props.genre) !== -1
-            }
-            // return track
-          }).map((track, i) => {
-            return (
-              <Track track={track} key={i}>
-                <PlayControls track={track} />
-                <SeedControls track={track} />
-                {/*<p>Genres: {this.props.genresLoading && '...loading'}{(track.genres || []).map((genre, i) => {
-                  return <Badge key={i}>{genre} {this.props.genre === genre && 'x'}</Badge>
-                })}</p>*/}
-              </Track>
-            )
-          })}
+          <Infinite useWindowAsScrollContainer elementHeight={100}>
+            {this.props.tracks.filter(track => {
+              if(this.props.genre) {
+                return track.genres.indexOf(this.props.genre) !== -1
+              }
+              return track
+            }).map((track, i) => {
+              return (
+                <Track track={track} key={i}>
+                  <PlayControls track={track} />
+                  <SeedControls track={track} />
+                  {/*<p>Genres: {this.props.genresLoading && '...loading'}{(track.genres || []).map((genre, i) => {
+                    return <Badge key={i}>{genre} {this.props.genre === genre && 'x'}</Badge>
+                  })}</p>*/}
+                </Track>
+              )
+            })}
+          </Infinite>
         </Tracks>
       </Page>
     )

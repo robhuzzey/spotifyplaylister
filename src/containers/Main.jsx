@@ -1,9 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { changePage } from '../actions/navigation'
-
 import UserTracks from './UserTracks'
-import Seeds from './Seeds'
 import Recommendations from './Recommendations'
 import Authenticate from './Authenticate'
 import Player from './Player'
@@ -37,14 +35,12 @@ const Main = props => (
       <Navbar.Collapse>
         <Nav activeKey={props.page}>
           <NavItem eventKey='tracks' onClick={() => props.changePage('tracks')}>1) Tracks</NavItem>
-          <NavItem eventKey='seeds' disabled={props.seedCount < 1} onClick={() => props.changePage('seeds')}>2) Seeds <Badge>{props.seedCount}</Badge></NavItem>
-          <NavItem eventKey='recommendations' disabled={props.seedCount < 1} onClick={() => props.changePage('recommendations')}>3) Suggestions</NavItem>
+          <NavItem eventKey='recommendations' disabled={props.seedCount < 1} onClick={() => props.changePage('recommendations')}>2) Suggestions</NavItem>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
     <Authenticate>
       {props.page === 'tracks' && <UserTracks />}
-      {props.page === 'seeds' && <Seeds />}
       {props.page === 'recommendations' && <Recommendations />}
     </Authenticate>
     <Navbar fixedBottom>

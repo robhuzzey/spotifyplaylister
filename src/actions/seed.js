@@ -1,5 +1,6 @@
 export const ADD_SEED = 'ADD_SEED'
 export const REMOVE_SEED = 'REMOVE_SEED'
+export const VIEW_SEEDS_TOGGLE = 'VIEW_SEEDS_TOGGLE'
 
 import {
   getRecommendations
@@ -25,6 +26,14 @@ export const removeSeed = track => {
     dispatch({
       type: REMOVE_SEED,
       track
+    })
+  }
+}
+
+export const viewSeedsToggle = track => {
+  return (dispatch, getState, {spotifyApi}) => {
+    dispatch({
+      type: VIEW_SEEDS_TOGGLE
     })
   }
 }

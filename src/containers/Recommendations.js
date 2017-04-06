@@ -9,14 +9,20 @@ import PlayControls from '../containers/PlayControls'
 import SeedControls from '../containers/SeedControls'
 import PlaylistControls from '../containers/PlaylistControls'
 
-import { Button } from 'react-bootstrap'
+import Seeds from '../containers/Seeds'
+
+import { Badge, Button, Panel } from 'react-bootstrap'
 
 import { getRecommendations } from '../actions/recommendations'
+
+import { viewSeedsToggle } from '../actions/seed'
 
 const mapStateToProps = (state, ownProps) => {
   return {
     items: state.recommendations.items,
-    isFetching: state.recommendations.isFetching
+    isFetching: state.recommendations.isFetching,
+    viewSeeds: state.seeds.view,
+    seedCount: state.seeds.count
   }
 }
 
@@ -30,12 +36,20 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getRecommendations: () => {
       dispatch(getRecommendations())
+    },
+    viewSeedsToggle: () => {
+      dispatch(viewSeedsToggle())
     }
   }
 }
 
 const Recommendations = props => (
   <Page title="Recommendations">
+    <p>{props.items.length > 0 && <Button onClick={props.getRecommendations}>Refresh suggestions</Button>} <Button onClick={props.viewSeedsToggle}>View Seeds <Badge>{props.seedCount}</Badge></Button></p>
+    <Panel collapsible expanded={props.viewSeeds}>
+      <h4>Seeds</h4>
+      <Seeds />
+    </Panel>
     <Tracks>
       <div>
         {props.items.length === 0 && 
@@ -43,7 +57,6 @@ const Recommendations = props => (
             Once you have added liked tracks, a list of recommendations based off that will appear here.
           </div>
         }
-        {props.items.length > 0 && <Button onClick={props.getRecommendations}>Refresh suggestions</Button>}
         {props.items.map((track, i) => {
           return (
             <Track track={track} key={i}>

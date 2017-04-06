@@ -1,12 +1,9 @@
 import React from 'react'
-import LazyLoad from 'react-lazyload'
 import { Media } from 'react-bootstrap'
 export default (props) => (
   <Media style={{marginTop: '10px', marginBottom: '10px'}}>
     <Media.Left>
-      <LazyLoad once={true} height={64} placeholder={<div style={{width: '64px', height:'64px', backgroundColor: '#CCC'}} />}>
-        <img alt="album art" width={64} height={64} src={props.track && props.track.album && (props.track.album.images[2] || props.track.album.images[1] || props.track.album.images[0]).url} />
-      </LazyLoad>
+      <img alt="album art" width={64} height={64} src={props.track && props.track.album && (props.track.album.images[2] || props.track.album.images[1] || props.track.album.images[0]).url} />
     </Media.Left>
     <Media.Body>
       <Media.Heading>{props.track.name} <small>{(props.track.artists || []).map(artist => artist.name).join(' / ')}</small></Media.Heading>

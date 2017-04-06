@@ -1,11 +1,13 @@
 import {
   ADD_SEED,
-  REMOVE_SEED
+  REMOVE_SEED,
+  VIEW_SEEDS_TOGGLE
 } from '../actions/seed'
 
 const seeds = (state = {
   items: [],
-  count: 0
+  count: 0,
+  view: false
 }, action) => {
   let items;
   switch (action.type) {
@@ -23,6 +25,10 @@ const seeds = (state = {
       return Object.assign({}, state, {
         items,
         count: items.length
+      })
+    case VIEW_SEEDS_TOGGLE:
+      return Object.assign({}, state, {
+        view: !state.view
       })
     default:
       return state
