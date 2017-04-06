@@ -42,9 +42,6 @@ class Player extends React.Component {
     if(this.audio.readyState !== 4){ //HAVE_ENOUGH_DATA
       this.audio.addEventListener('canplay', this.onCanPlay, false)
       this.audio.addEventListener('load', this.onCanPlay, false) //add load event as well to avoid errors, sometimes 'canplaythrough' won't dispatch.
-      setTimeout(() => {
-        this.audio.pause() //block play so it buffers before playing
-      }, 1); //it needs to be after a delay otherwise it doesn't work properly.
     }
   }
 
