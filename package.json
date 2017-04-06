@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
-    "start": "WEBPACK_DEV=true webpack-dev-server --config ./webpack.config.js --content-base ./docs/ --inline --progress",
+    "start": "WEBPACK_DEV=true webpack-dev-server --host 0.0.0.0 --config ./webpack.config.js --content-base ./docs/ --inline --progress",
     "lint": "standard",
     "fixlinting": "standard --fix",
     "ci": "TEST_REPORT_DIRECTORY=${1:-unit}; istanbul cover _mocha --  test/ -R xunit > $CIRCLE_TEST_REPORTS/$TEST_REPORT_DIRECTORY/results.xml",

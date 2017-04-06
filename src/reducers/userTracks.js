@@ -57,10 +57,10 @@ const userTracks = (state = {
       })
     case ADD_USER_TRACK_RESPONSE:
       return Object.assign({}, state, {
-        items: [
-          action.track,
-          ...state.items
-        ],
+        // items: [
+        //   action.track,
+        //   ...state.items
+        // ],
         addedUserTrack: action.track.id
       })
     case ADD_USER_TRACK_FAILED:
