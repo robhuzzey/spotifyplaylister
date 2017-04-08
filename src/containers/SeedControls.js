@@ -27,9 +27,9 @@ const SeedControls = props => {
   return (
     <span>
       {props.isASeed ? (
-        <Button bsStyle="default" onClick={() => props.removeSeed(props.track)}><Glyphicon glyph="trash" /></Button>
+        <Button bsStyle="default" bsSize="large" onClick={() => props.removeSeed(props.track)}><Glyphicon glyph="trash" /></Button>
       ) : (
-        <Button bsStyle="default" onClick={() => props.addSeed(props.track)}><Glyphicon glyph="thumbs-up" /></Button>
+        <Button bsStyle="default" bsSize="large" onClick={() => props.addSeed(props.track)}><Glyphicon glyph="thumbs-up" /></Button>
       )}
     </span>
   )

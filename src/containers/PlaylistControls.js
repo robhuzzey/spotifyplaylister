@@ -26,7 +26,7 @@ const PlaylistControls = props => {
       {props.savedUserTrack === props.track.id ? (
         <Glyphicon glyph="saved" />
       ) : (
-        <Button bsStyle="default" onClick={() => props.addUserTrack(props.track)}>
+        <Button bsStyle="default" bsSize="large" onClick={() => props.addUserTrack(props.track)}>
           {props.addingUserTrack === props.track.id ? (
             <Glyphicon glyph="hourglass" />
           ) : (
