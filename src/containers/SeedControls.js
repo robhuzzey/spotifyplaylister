@@ -24,14 +24,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const SeedControls = props => {
-  return (
-    <span>
-      {props.isASeed ? (
-        <Button bsStyle="default" bsSize="large" onClick={() => props.removeSeed(props.track)}><Glyphicon glyph="trash" /></Button>
-      ) : (
-        <Button bsStyle="default" bsSize="large" onClick={() => props.addSeed(props.track)}><Glyphicon glyph="thumbs-up" /></Button>
-      )}
-    </span>
+  return props.isASeed ? (
+    <Button bsStyle="danger" onClick={() => props.removeSeed(props.track)}><Glyphicon glyph="trash" /></Button>
+  ) : (
+    <Button bsStyle="primary" onClick={() => props.addSeed(props.track)}><Glyphicon glyph="thumbs-up" /></Button>
   )
 }
 

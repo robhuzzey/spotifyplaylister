@@ -7,7 +7,7 @@ import { loadTrack } from '../actions/player'
 import { getUsersTracks } from '../actions/getUsersTracks'
 import { addGenre, removeGenre, toggleList } from '../actions/genre'
 
-import { Button, ProgressBar, Badge, Panel, ListGroup, ListGroupItem } from 'react-bootstrap'
+import { Button, ButtonGroup, ProgressBar, Badge, Panel, ListGroup, ListGroupItem } from 'react-bootstrap'
 
 import Tracks from '../components/Tracks.jsx'
 import Track from '../components/Track.jsx'
@@ -85,8 +85,10 @@ class UserTracks extends React.Component {
             }).map((track, i) => {
               return (
                 <Track track={track} key={i}>
-                  <PlayControls track={track} />
-                  <SeedControls track={track} />
+                  <ButtonGroup bsSize="large">
+                    <PlayControls track={track} />
+                    <SeedControls track={track} />
+                  </ButtonGroup>
                   {/*<p>Genres: {this.props.genresLoading && '...loading'}{(track.genres || []).map((genre, i) => {
                     return <Badge key={i}>{genre} {this.props.genre === genre && 'x'}</Badge>
                   })}</p>*/}

@@ -4,6 +4,7 @@ import { unloadTrack, trackLoaded } from '../actions/player'
 import Track from '../components/Track.jsx'
 import PlayControls from '../containers/PlayControls'
 import SeedControls from '../containers/SeedControls'
+import { ButtonGroup } from 'react-bootstrap'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -68,8 +69,10 @@ class Player extends React.Component {
       <div>
         {this.props.track.name && (
           <Track track={this.props.track}>
-            <PlayControls track={this.props.track} />
-            <SeedControls track={this.props.track} />
+            <ButtonGroup bsSize="large">
+              <PlayControls track={this.props.track} />
+              <SeedControls track={this.props.track} />
+            </ButtonGroup>
           </Track>
         )}
       </div>

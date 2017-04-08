@@ -22,19 +22,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const PlaylistControls = props => {
   return (
-    <span>
-      {props.savedUserTrack === props.track.id ? (
-        <Glyphicon glyph="saved" />
+    <Button bsStyle="default" onClick={() => props.addUserTrack(props.track)}>
+      {props.addingUserTrack === props.track.id ? (
+        <Glyphicon glyph="hourglass" />
       ) : (
-        <Button bsStyle="default" bsSize="large" onClick={() => props.addUserTrack(props.track)}>
-          {props.addingUserTrack === props.track.id ? (
-            <Glyphicon glyph="hourglass" />
-          ) : (
-            <Glyphicon glyph="plus" />
-          )}
-        </Button>
+        props.savedUserTrack === props.track.id ? (
+          <Glyphicon glyph="saved" />
+        ) : (
+          <Glyphicon glyph="plus" />
+        )
       )}
-    </span>
+    </Button>
   )
 }
 

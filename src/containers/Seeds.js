@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { removeSeed } from '../actions/seed'
 import { loadTrack } from '../actions/player'
 
-import { Button } from 'react-bootstrap';
+import { Button, ButtonGroup } from 'react-bootstrap';
 
 import Tracks from '../components/Tracks.jsx'
 import Track from '../components/Track.jsx'
@@ -44,9 +44,11 @@ const Seeds = props => (
               {props.items.map((track, i) => {
                 return (
                   <Track track={track} key={i}>
-                    <PlayControls track={track} />
-                    <SeedControls track={track} />
-                    <PlaylistControls track={track} />
+                    <ButtonGroup bsSize="large">
+                      <PlayControls track={track} />
+                      <SeedControls track={track} />
+                      <PlaylistControls track={track} />
+                    </ButtonGroup>
                   </Track>
                 )
               })}

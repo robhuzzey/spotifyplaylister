@@ -31,20 +31,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const PlayControls = props => {
-  return (
-    <span>
-      {props.isThisTrack ? (
-        <span>
-          {props.isLoaded ? (
-            <Button bsStyle="default" bsSize="large" onClick={props.unload}><Glyphicon glyph="stop" /></Button>
-          ) : (
-            <Button bsStyle="default" bsSize="large" onClick={props.unload}><Glyphicon glyph="hourglass" /></Button>
-          )}
-        </span>
-      ) : (
-        <Button bsStyle="default" bsSize="large" onClick={() => props.load(props.track)}><Glyphicon glyph="play" /></Button>
-      )}
-    </span>
+  return props.isThisTrack ? (
+    props.isLoaded ? (
+      <Button bsStyle="danger" onClick={props.unload}><Glyphicon glyph="stop" /></Button>
+    ) : (
+      <Button bsStyle="warning" onClick={props.unload}><Glyphicon glyph="hourglass" /></Button>
+    )
+  ) : (
+    <Button bsStyle="success" onClick={() => props.load(props.track)}><Glyphicon glyph="play" /></Button>
   )
 }
 
