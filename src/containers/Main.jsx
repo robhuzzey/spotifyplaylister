@@ -3,10 +3,11 @@ import { connect } from 'react-redux'
 import { changePage } from '../actions/navigation'
 import UserTracks from './UserTracks'
 import Recommendations from './Recommendations'
+import Seeds from './Seeds'
 import Authenticate from './Authenticate'
 import Player from './Player'
 
-import {Navbar, Nav, NavItem, Badge} from 'react-bootstrap'
+import { Container, Navbar, Nav, NavItem, Badge, Button, ButtonGroup, Grid, Row, Col} from 'react-bootstrap'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -25,23 +26,32 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const Main = props => (
   <div>
-    <Navbar fixedTop collapseOnSelect>
+    <Navbar fixedTop>
       <Navbar.Header>
         <Navbar.Brand>
           <a href="#">Spotify Playlister</a>
         </Navbar.Brand>
-        <Navbar.Toggle />
       </Navbar.Header>
-      <Navbar.Collapse>
-        <Nav activeKey={props.page}>
-          <NavItem eventKey='tracks' onClick={() => props.changePage('tracks')}>1) Tracks</NavItem>
-          <NavItem eventKey='recommendations' disabled={props.seedCount < 1} onClick={() => props.changePage('recommendations')}>2) Suggestions</NavItem>
-        </Nav>
-      </Navbar.Collapse>
     </Navbar>
     <Authenticate>
-      {props.page === 'tracks' && <UserTracks />}
-      {props.page === 'recommendations' && <Recommendations />}
+      <div>
+        <ButtonGroup justified>
+          <ButtonGroup>
+            <Button onClick={() => props.changePage('tracks')}>Tracks</Button>
+          </ButtonGroup>
+          <ButtonGroup>
+            <Button onClick={() => props.changePage('seeds')}>Seeds <Badge>{props.seedCount}</Badge></Button>
+          </ButtonGroup>
+        </ButtonGroup>
+        <ButtonGroup justified>
+          <ButtonGroup>
+            <Button onClick={() => props.changePage('recommendations')}>Recommendations</Button>
+          </ButtonGroup>
+        </ButtonGroup>
+        {props.page === 'tracks' && <UserTracks />}
+        {props.page === 'recommendations' && <Recommendations />}
+        {props.page === 'seeds' && <Seeds />}
+      </div>
     </Authenticate>
     <Navbar fixedBottom>
       <Player />

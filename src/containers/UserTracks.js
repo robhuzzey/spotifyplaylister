@@ -65,7 +65,7 @@ class UserTracks extends React.Component {
       return <ProgressBar now={this.props.count} max={this.props.totalTracks} label={`Loading ${this.props.count} of ${this.props.totalTracks}`} />
     }
     return (
-      <Page title="Users tracks">
+      <div>
         <p><Button onClick={this.props.toggleGenreList}>Filter by: </Button> : {this.props.genre}</p>
         <Panel collapsible expanded={this.props.listGenres}>
           <ListGroup>
@@ -97,7 +97,7 @@ class UserTracks extends React.Component {
             })}
           </Infinite>
         </Tracks>
-      </Page>
+      </div>
     )
   }
 }
