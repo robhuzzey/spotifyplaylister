@@ -9,7 +9,6 @@ import { addGenre, removeGenre, toggleList } from '../actions/genre'
 
 import { Button, ButtonGroup, ProgressBar, Badge, Panel, ListGroup, ListGroupItem } from 'react-bootstrap'
 
-import Tracks from '../components/Tracks.jsx'
 import Track from '../components/Track.jsx'
 
 import Page from '../components/Page.jsx'
@@ -66,7 +65,7 @@ class UserTracks extends React.Component {
     }
     return (
       <div>
-        <p><Button onClick={this.props.toggleGenreList}>Filter by: </Button> : {this.props.genre}</p>
+        <p><Button active={this.props.genre} onClick={this.props.toggleGenreList}>Filter by: </Button> : {this.props.genre}</p>
         <Panel collapsible expanded={this.props.listGenres}>
           <ListGroup>
             <ListGroupItem bsStyle="danger" onClick={() => this.props.removeGenre()}>Clear</ListGroupItem>
@@ -75,7 +74,7 @@ class UserTracks extends React.Component {
             })}
           </ListGroup>
         </Panel>
-        <Tracks>
+        <div>
           <Infinite useWindowAsScrollContainer elementHeight={100}>
             {this.props.tracks.filter(track => {
               if(this.props.genre) {
@@ -85,9 +84,13 @@ class UserTracks extends React.Component {
             }).map((track, i) => {
               return (
                 <Track track={track} key={i}>
-                  <ButtonGroup bsSize="large">
-                    <PlayControls track={track} />
-                    <SeedControls track={track} />
+                  <ButtonGroup bsSize="large" justified>
+                    <ButtonGroup>
+                      <PlayControls track={track} />
+                    </ButtonGroup>
+                    <ButtonGroup>
+                      <SeedControls track={track} />
+                    </ButtonGroup>
                   </ButtonGroup>
                   {/*<p>Genres: {this.props.genresLoading && '...loading'}{(track.genres || []).map((genre, i) => {
                     return <Badge key={i}>{genre} {this.props.genre === genre && 'x'}</Badge>
@@ -96,7 +99,7 @@ class UserTracks extends React.Component {
               )
             })}
           </Infinite>
-        </Tracks>
+        </div>
       </div>
     )
   }

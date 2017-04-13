@@ -4,9 +4,8 @@ import { connect } from 'react-redux'
 import { removeSeed } from '../actions/seed'
 import { loadTrack } from '../actions/player'
 
-import { Button, ButtonGroup } from 'react-bootstrap';
+import { Button, ButtonGroup, Panel } from 'react-bootstrap';
 
-import Tracks from '../components/Tracks.jsx'
 import Track from '../components/Track.jsx'
 import Page from '../components/Page.jsx'
 
@@ -32,32 +31,33 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const Seeds = props => (
-    <Tracks>
-      <div>
-        {props.items.length === 0 ?
-          (
-            <div>
-              Tracks you have liked will appear here for review before you move on to get suggestions based off them.
-            </div>
-          ) : (
-            <div>
-              {props.items.map((track, i) => {
-                return (
-                  <Track track={track} key={i}>
-                    <ButtonGroup bsSize="large">
-                      <PlayControls track={track} />
-                      <SeedControls track={track} />
-                      <PlaylistControls track={track} />
-                    </ButtonGroup>
-                  </Track>
-                )
-              })}
-            </div>
-          )
-        }
-        
-      </div>
-    </Tracks>
+  <div>
+    {props.items.length === 0 ?
+      (
+        <Panel>
+          Tracks you have liked will appear here for review before you move on to get suggestions based off them.
+        </Panel>
+      ) : (
+        <div>
+          {props.items.map((track, i) => {
+            return (
+              <Track track={track} key={i}>
+                <ButtonGroup bsSize="large" justified>
+                <ButtonGroup>
+                  <PlayControls track={track} />
+                </ButtonGroup>
+                <ButtonGroup>
+                  <SeedControls track={track} />
+                </ButtonGroup>
+              </ButtonGroup>
+              </Track>
+            )
+          })}
+        </div>
+      )
+    }
+    
+  </div>
 )
 
 export default connect(

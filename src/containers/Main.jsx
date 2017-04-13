@@ -34,27 +34,31 @@ const Main = props => (
       </Navbar.Header>
     </Navbar>
     <Authenticate>
-      <div>
-        <ButtonGroup justified>
-          <ButtonGroup>
-            <Button onClick={() => props.changePage('tracks')}>Tracks</Button>
-          </ButtonGroup>
-          <ButtonGroup>
-            <Button onClick={() => props.changePage('seeds')}>Seeds <Badge>{props.seedCount}</Badge></Button>
-          </ButtonGroup>
-        </ButtonGroup>
-        <ButtonGroup justified>
-          <ButtonGroup>
-            <Button onClick={() => props.changePage('recommendations')}>Recommendations</Button>
-          </ButtonGroup>
-        </ButtonGroup>
-        {props.page === 'tracks' && <UserTracks />}
-        {props.page === 'recommendations' && <Recommendations />}
-        {props.page === 'seeds' && <Seeds />}
-      </div>
+      <Grid>
+        <Row>
+          <Col xs={12} md={8} mdPush={2}>
+            {props.page === 'tracks' && <UserTracks />}
+            {props.page === 'recommendations' && <Recommendations />}
+            {props.page === 'seeds' && <Seeds />}
+          </Col>
+        </Row>
+      </Grid>
     </Authenticate>
-    <Navbar fixedBottom>
+    <Navbar fixedBottom style={{padding: '5px'}}>
       <Player />
+      <ButtonGroup justified>
+        <ButtonGroup>
+          <Button active={props.page === 'tracks'} onClick={() => props.changePage('tracks')}>Tracks</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button active={props.page === 'seeds'} bsStyle={props.seedCount > 0 ? 'warning' : 'default'} onClick={() => props.changePage('seeds')}>Seeds <Badge>{props.seedCount}</Badge></Button>
+        </ButtonGroup>
+      </ButtonGroup>
+      <ButtonGroup justified>
+        <ButtonGroup>
+          <Button active={props.page === 'recommendations'} bsStyle="success" onClick={() => props.changePage('recommendations')}>Recommendations</Button>
+        </ButtonGroup>
+      </ButtonGroup>
     </Navbar>
   </div>
 )

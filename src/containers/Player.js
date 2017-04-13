@@ -67,14 +67,14 @@ class Player extends React.Component {
     console.log(this.props.track)
     return (
       <div>
-        {this.props.track.name && (
+        {/*this.props.track.name && (
           <Track track={this.props.track}>
             <ButtonGroup bsSize="large">
               <PlayControls track={this.props.track} />
               <SeedControls track={this.props.track} />
             </ButtonGroup>
           </Track>
-        )}
+        )*/}
       </div>
     )
   }

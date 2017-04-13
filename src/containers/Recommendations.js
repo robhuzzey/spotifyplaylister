@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import Tracks from '../components/Tracks.jsx'
 import Track from '../components/Track.jsx'
 import Page from '../components/Page.jsx'
 
@@ -36,27 +35,31 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const Recommendations = props => (
   <div>
-    <p>{props.items.length > 0 && <Button onClick={props.getRecommendations}>Refresh suggestions</Button>}</p>
-    <Tracks>
-      <div>
-        {props.items.length === 0 && 
-          <div>
-            Once you have added liked tracks, a list of recommendations based off that will appear here.
-          </div>
-        }
-        {props.items.map((track, i) => {
-          return (
-            <Track track={track} key={i}>
-              <ButtonGroup bsSize="large">
+    {props.items.length > 0 && <p><Button onClick={props.getRecommendations}>Refresh suggestions</Button></p>}
+    <div>
+      {props.items.length === 0 && 
+        <Panel>
+          Once you have added liked tracks, a list of recommendations based off that will appear here.
+        </Panel>
+      }
+      {props.items.map((track, i) => {
+        return (
+          <Track track={track} key={i}>
+            <ButtonGroup bsSize="large" justified>
+              <ButtonGroup>
                 <PlayControls track={track} />
+              </ButtonGroup>
+              <ButtonGroup>
                 <SeedControls track={track} />
+              </ButtonGroup>
+              <ButtonGroup>
                 <PlaylistControls track={track} />
               </ButtonGroup>
-            </Track>
-          )
-        })}
-      </div>
-    </Tracks>
+            </ButtonGroup>
+          </Track>
+        )
+      })}
+    </div>
   </div>
 )
 
