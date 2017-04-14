@@ -10,10 +10,6 @@ export const addSeed = track => {
   return (dispatch, getState, {spotifyApi}) => {
 
     const seeds = getState().seeds
-    if(seeds.count === 5) {
-      dispatch(getRecommendations())
-    } 
-
     dispatch({
       type: ADD_SEED,
       track: track

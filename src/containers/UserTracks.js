@@ -65,7 +65,7 @@ class UserTracks extends React.Component {
     }
     return (
       <div>
-        <p><Button active={this.props.genre} onClick={this.props.toggleGenreList}>Filter by: </Button> : {this.props.genre}</p>
+        <p><Button active={!!this.props.genre} onClick={this.props.toggleGenreList}>Filter by: </Button> : {this.props.genre}</p>
         <Panel collapsible expanded={this.props.listGenres}>
           <ListGroup>
             <ListGroupItem bsStyle="danger" onClick={() => this.props.removeGenre()}>Clear</ListGroupItem>
@@ -84,7 +84,7 @@ class UserTracks extends React.Component {
             }).map((track, i) => {
               return (
                 <Track track={track} key={i}>
-                  <ButtonGroup bsSize="large" justified>
+                  <ButtonGroup justified>
                     <ButtonGroup>
                       <PlayControls track={track} />
                     </ButtonGroup>

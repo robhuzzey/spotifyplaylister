@@ -37,6 +37,7 @@ class Player extends React.Component {
   }
 
   initAudio(src) {
+    console.log("init audio")
     // A lot of jumpping through hoops for HTML5 on IOS :(
     this.audio.src = src
     this.audio.play() //start loading, didn't used `this.audio.load()` since it causes problems with the `ended` event
@@ -54,7 +55,13 @@ class Player extends React.Component {
     this.audio.play()
   }
 
-  componentDidUpdate() {
+  shouldComponentUpdate(nextProps) {
+    return nextProps.track.preview_url !== this.props.track.preview_url
+  }
+
+  componentDidUpdate(prevProps) {
+    console.log(this.props, prevProps);
+    
     if(this.props.track.preview_url) {
       this.initAudio(this.props.track.preview_url)      
     } else {
@@ -67,14 +74,11 @@ class Player extends React.Component {
     console.log(this.props.track)
     return (
       <div>
-        {/*this.props.track.name && (
-          <Track track={this.props.track}>
-            <ButtonGroup bsSize="large">
-              <PlayControls track={this.props.track} />
-              <SeedControls track={this.props.track} />
-            </ButtonGroup>
-          </Track>
-        )*/}
+        {this.props.track.name ? (
+          <div><img alt="album art" onClick={() => this.props.onClick(this.props.track)} width={40} height={40} src={this.props.track && this.props.track.album && (this.props.track.album.images[2] || this.props.track.album.images[1] || this.props.track.album.images[0]).url} /> <PlayControls track={this.props.track} /> <SeedControls track={this.props.track} /></div>
+        ) : (
+          <div>Nothing playing</div>
+        )}
       </div>
     )
   }

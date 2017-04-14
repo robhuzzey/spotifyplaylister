@@ -8,6 +8,7 @@ import recommendations from './recommendations'
 import navigation from './navigation'
 import artists from './artists'
 import genres from './genres'
+import modal from './modal'
 
 const rootReducer = combineReducers({
   authenticate,
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   player,
   navigation,
   artists,
-  genres
+  genres,
+  modal
 })
 
 export default rootReducer

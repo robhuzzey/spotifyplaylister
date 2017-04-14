@@ -42,7 +42,7 @@ const Seeds = props => (
           {props.items.map((track, i) => {
             return (
               <Track track={track} key={i}>
-                <ButtonGroup bsSize="large" justified>
+                <ButtonGroup justified>
                 <ButtonGroup>
                   <PlayControls track={track} />
                 </ButtonGroup>

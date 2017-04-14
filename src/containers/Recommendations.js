@@ -5,17 +5,17 @@ import Track from '../components/Track.jsx'
 import Page from '../components/Page.jsx'
 
 import PlayControls from '../containers/PlayControls'
-import SeedControls from '../containers/SeedControls'
-import PlaylistControls from '../containers/PlaylistControls'
+import TrackDetails from '../components/TrackDetails.jsx'
 
-import { Badge, Button, ButtonGroup, Panel } from 'react-bootstrap'
+import { Badge, Button, ButtonGroup, Panel, Glyphicon } from 'react-bootstrap'
 
 import { getRecommendations } from '../actions/recommendations'
+import { set as setModal } from '../actions/modal'
 
 const mapStateToProps = (state, ownProps) => {
   return {
     items: state.recommendations.items,
-    isFetching: state.recommendations.isFetching
+    isLoading: state.recommendations.isLoading
   }
 }
 
@@ -24,44 +24,49 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     play: (url, name) => {
       dispatch(loadTrack(url, name))
     },
-    addSeed: track => {
-      dispatch(addSeed(track))
-    },
     getRecommendations: () => {
       dispatch(getRecommendations())
+    },
+    setModal: (title, body) => {
+      dispatch(setModal(title, body))
     }
   }
 }
 
-const Recommendations = props => (
-  <div>
-    {props.items.length > 0 && <p><Button onClick={props.getRecommendations}>Refresh suggestions</Button></p>}
+const loadingMessage = <span>Loading...<Glyphicon className="spinning" glyph="refresh" /></span>
+
+const Recommendations = props => {
+
+  return (
     <div>
-      {props.items.length === 0 && 
-        <Panel>
-          Once you have added liked tracks, a list of recommendations based off that will appear here.
-        </Panel>
-      }
-      {props.items.map((track, i) => {
-        return (
-          <Track track={track} key={i}>
-            <ButtonGroup bsSize="large" justified>
-              <ButtonGroup>
-                <PlayControls track={track} />
+      {props.items.length > 0 && <p><Button active={props.isLoading} onClick={props.getRecommendations}>{props.isLoading ? loadingMessage : 'Refresh suggestions'}</Button></p>}
+      <div>
+        {props.items.length === 0 && 
+          <Panel>
+            {props.isLoading ? loadingMessage : 'Once you have added liked tracks, a list of recommendations based off that will appear here.'}
+          </Panel>
+        }
+
+        {props.items.map((track, i) => {
+          return (
+            <Track track={track} key={i}>
+              <ButtonGroup justified>
+                <ButtonGroup>
+                  <PlayControls track={track} />
+                </ButtonGroup>
+                <ButtonGroup>
+                  <Button bsStyle="warning" onClick={() => props.setModal(track.title, <TrackDetails track={track} />)}>
+                    <Glyphicon glyph="info-sign" />
+                  </Button>
+                </ButtonGroup>
               </ButtonGroup>
-              <ButtonGroup>
-                <SeedControls track={track} />
-              </ButtonGroup>
-              <ButtonGroup>
-                <PlaylistControls track={track} />
-              </ButtonGroup>
-            </ButtonGroup>
-          </Track>
-        )
-      })}
+            </Track>
+          )
+        })}
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export default connect(
   mapStateToProps,

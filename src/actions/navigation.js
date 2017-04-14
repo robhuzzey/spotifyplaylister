@@ -11,7 +11,7 @@ export const changePage = pagename => {
       pagename
     })
 
-    if(getState().recommendations.count === 0 && pagename === 'recommendations') {
+    if(getState().seeds.count > 0 && getState().recommendations.count === 0 && pagename === 'recommendations') {
       dispatch(getRecommendations())
     }
   }
