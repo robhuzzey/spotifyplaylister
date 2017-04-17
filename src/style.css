@@ -1,3 +1,7 @@
+#bottomNavigation {
+    box-shadow: 0 0px 10px #CCC;
+}
+
 #bottomNavigation ul {
     width: 100%;
     display: flex;
@@ -35,10 +39,6 @@
     display: inline-block;
     padding: 1em;
     box-shadow: 1px 1px 1px #CCC;
-}
-
-.actionButton:hover .glyphicon {
-    box-shadow: 1px 1px 5px #CCC; 
 }
 
 .actionButton:active .glyphicon {
