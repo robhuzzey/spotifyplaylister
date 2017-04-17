@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import Infinite from 'react-infinite'
 
 import Track from '../components/Track.jsx'
 import Page from '../components/Page.jsx'
@@ -48,16 +49,23 @@ const Recommendations = props => {
           </Panel>
         }
 
-        {props.items.map((track, i) => {
-          return (
-            <Track track={track} key={i}>
-              <div className="controls">
-                <PlayControls track={track} />
-                <GlyphText glyph="info-sign" text="Track Info" onClick={() => props.setModal(track.title, <TrackDetails track={track} />)} />
-              </div>
-            </Track>
-          )
-        })}
+        <Infinite 
+          useWindowAsScrollContainer 
+          elementHeight={100}
+          infiniteLoadBeginEdgeOffset={200}
+          onInfiniteLoad={() => !props.isLoading && props.getRecommendations()}
+        >
+          {props.items.map((track, i) => {
+            return (
+              <Track track={track} key={i}>
+                <div className="controls">
+                  <PlayControls track={track} />
+                  <GlyphText glyph="info-sign" text="Track Info" onClick={() => props.setModal(track.title, <TrackDetails track={track} />)} />
+                </div>
+              </Track>
+            )
+          })}
+        </Infinite>
       </div>
     </div>
   )

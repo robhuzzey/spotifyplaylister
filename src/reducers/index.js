@@ -6,8 +6,6 @@ import player from './player'
 import seeds from './seed'
 import recommendations from './recommendations'
 import navigation from './navigation'
-import artists from './artists'
-import genres from './genres'
 import modal from './modal'
 
 const rootReducer = combineReducers({
@@ -17,8 +15,6 @@ const rootReducer = combineReducers({
   recommendations,
   player,
   navigation,
-  artists,
-  genres,
   modal
 })
 

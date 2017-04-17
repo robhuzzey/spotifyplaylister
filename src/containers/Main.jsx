@@ -68,8 +68,8 @@ const Main = props => (
       <Navbar fixedBottom id="bottomNavigation">
         <Nav activeKey={props.page}>
           <NavItem eventKey="tracks" onClick={() => props.changePage('tracks')}><GlyphText glyph="th-list" text="Tracks" /></NavItem>
-          <NavItem eventKey="recommendations" onClick={() => props.changePage('recommendations')}><GlyphText glyph="eye-open" text="Recommendations" /></NavItem>
-          <NavItem eventKey="seeds" onClick={() => props.changePage('seeds')}><GlyphText glyph={props.seedCount > 0 ? "heart" : "heart-empty"} text="Seeds" /></NavItem>
+          <NavItem eventKey="seeds" onClick={() => props.changePage('seeds')}><GlyphText glyph={props.seedCount > 0 ? "heart" : "heart-empty"} text="Likes" /></NavItem>
+          <NavItem eventKey="recommendations" onClick={() => props.changePage('recommendations')}><GlyphText glyph="eye-open" text="Discover" /></NavItem>
         </Nav>
       </Navbar>
     )}

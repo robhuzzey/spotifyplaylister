@@ -14,10 +14,11 @@ const recommendations = (state = {
         isLoading: true
       })
     case RECEIVE_RECOMMENDATIONS:
+      const items = state.items.concat(action.data.body.tracks);
       return Object.assign({}, state, {
         isLoading: false,
-        items: action.data.body.tracks,
-        count: action.data.body.tracks.length
+        items,
+        count: items.length
       })
     default:
       return state

@@ -1,12 +1,8 @@
 import {
   REQUEST_ALL_TRACKS,
-  RECEIVE_TRACKS,
-  RECEIVED_ALL_TRACKS
+  RECEIVE_TRACKS
 } from '../actions/getUsersTracks'
 
-import {
-  RECEIVED_ALL_ARTISTS
-} from '../actions/getArtists'
 
 import {
   ADD_USER_TRACK_REQUEST,
@@ -19,21 +15,13 @@ const userTracks = (state = {
   isFetching: false,
   total: 0,
   count: 0,
+  offset: 0,
+  limit: 50,
+  allLoaded: false,
   addingUserTrack: null,
   addingUserTrackFailed: null
 }, action) => {
   switch (action.type) {
-    case RECEIVED_ALL_ARTISTS:
-      const tracksForArtists = state.items
-      tracksForArtists.map(track => {
-        const trackArtistIds = track.artists.map(artist => artist.id)
-        const artistGenres = (action.items.find(artist => trackArtistIds.indexOf(artist.id) !== -1) || {}).genres
-        track.genres = (track.genres || []).concat(artistGenres)
-        return track
-      })
-      return Object.assign({}, state, {
-        items: tracksForArtists
-      })
     case REQUEST_ALL_TRACKS:
       return Object.assign({}, state, {
         isFetching: true
@@ -42,14 +30,11 @@ const userTracks = (state = {
       const items = state.items.concat(action.data.body.items.map(item => item.track));
       return Object.assign({}, state, {
         items,
-        isFetching: true,
+        isFetching: false,
         total: action.data.body.total,
-        count: items.length
-      })
-    case RECEIVED_ALL_TRACKS:
-      return Object.assign({}, state, {
-        total: action.total,
-        isFetching: false
+        count: items.length,
+        offset: action.data.body.offset + action.data.body.limit,
+        allLoaded: !action.data.body.next
       })
     case ADD_USER_TRACK_REQUEST:
       return Object.assign({}, state, {
