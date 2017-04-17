@@ -3,8 +3,7 @@ import { connect } from 'react-redux'
 
 import { loadTrack, unloadTrack } from '../actions/player'
 import { addUserTrack } from '../actions/addUserTrack'
-
-import { Button, Glyphicon } from 'react-bootstrap'
+import GlyphText from '../components/GlyphText.jsx'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -33,12 +32,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 const PlayControls = props => {
   return props.isThisTrack ? (
     props.isLoaded ? (
-      <Button bsStyle="success" active onClick={props.unload}><Glyphicon glyph="stop" /></Button>
+      <GlyphText glyph="stop" onClick={props.unload} text="Stop" active />
     ) : (
-      <Button bsStyle="warning" onClick={props.unload}><Glyphicon className="spinning" glyph="refresh" /></Button>
+      <GlyphText glyph="refresh" onClick={props.unload} text="Loading" />
     )
   ) : (
-    <Button bsStyle="success" onClick={() => props.load(props.track)}><Glyphicon glyph="play" /></Button>
+    <GlyphText glyph="play" onClick={() => props.load(props.track)} text="Play" />
   )
 }
 

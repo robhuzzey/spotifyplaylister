@@ -16,6 +16,8 @@ const store = createStore(
   )
 )
 
+import style from './style.css'
+
 import Main from './containers/Main.jsx'
 
 (() => {

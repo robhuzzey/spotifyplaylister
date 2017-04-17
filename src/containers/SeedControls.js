@@ -1,10 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
 import { addSeed, removeSeed } from '../actions/seed'
-
-import { Button, Glyphicon } from 'react-bootstrap'
-
+import GlyphText from '../components/GlyphText.jsx'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -25,9 +22,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const SeedControls = props => {
   return props.isASeed ? (
-    <Button bsStyle="primary" active onClick={() => props.removeSeed(props.track)}><Glyphicon glyph="minus" /></Button>
+    <GlyphText glyph="heart" onClick={() => props.removeSeed(props.track)} text="Remove" />
   ) : (
-    <Button bsStyle="primary" onClick={() => props.addSeed(props.track)}><Glyphicon glyph="plus" /></Button>
+    <GlyphText glyph="heart-empty" onClick={() => props.addSeed(props.track)} text="Add" />
   )
 }
 

@@ -42,14 +42,10 @@ const Seeds = props => (
           {props.items.map((track, i) => {
             return (
               <Track track={track} key={i}>
-                <ButtonGroup justified>
-                <ButtonGroup>
+                <div className="controls">
                   <PlayControls track={track} />
-                </ButtonGroup>
-                <ButtonGroup>
                   <SeedControls track={track} />
-                </ButtonGroup>
-              </ButtonGroup>
+                </div>
               </Track>
             )
           })}

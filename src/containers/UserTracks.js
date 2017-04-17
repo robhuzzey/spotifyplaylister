@@ -84,17 +84,10 @@ class UserTracks extends React.Component {
             }).map((track, i) => {
               return (
                 <Track track={track} key={i}>
-                  <ButtonGroup justified>
-                    <ButtonGroup>
-                      <PlayControls track={track} />
-                    </ButtonGroup>
-                    <ButtonGroup>
-                      <SeedControls track={track} />
-                    </ButtonGroup>
-                  </ButtonGroup>
-                  {/*<p>Genres: {this.props.genresLoading && '...loading'}{(track.genres || []).map((genre, i) => {
-                    return <Badge key={i}>{genre} {this.props.genre === genre && 'x'}</Badge>
-                  })}</p>*/}
+                  <div className="controls">
+                    <PlayControls track={track} />
+                    <SeedControls track={track} />
+                  </div>
                 </Track>
               )
             })}

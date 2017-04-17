@@ -73,9 +73,9 @@ class Player extends React.Component {
   render() {
     console.log(this.props.track)
     return (
-      <div>
+      <div className="player">
         {this.props.track.name ? (
-          <div><img alt="album art" onClick={() => this.props.onClick(this.props.track)} width={40} height={40} src={this.props.track && this.props.track.album && (this.props.track.album.images[2] || this.props.track.album.images[1] || this.props.track.album.images[0]).url} /> <PlayControls track={this.props.track} /> <SeedControls track={this.props.track} /></div>
+          <div><img alt="album art" onClick={() => this.props.onClick(this.props.track)} width={40} height={40} src={this.props.track && this.props.track.album && (this.props.track.album.images[2] || this.props.track.album.images[1] || this.props.track.album.images[0]).url} /> <span className="controls"><PlayControls track={this.props.track} /> <SeedControls track={this.props.track} /></span></div>
         ) : (
           <div>Nothing playing</div>
         )}

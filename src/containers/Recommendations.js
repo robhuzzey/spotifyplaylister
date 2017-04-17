@@ -8,6 +8,7 @@ import PlayControls from '../containers/PlayControls'
 import TrackDetails from '../components/TrackDetails.jsx'
 
 import { Badge, Button, ButtonGroup, Panel, Glyphicon } from 'react-bootstrap'
+import GlyphText from '../components/GlyphText.jsx'
 
 import { getRecommendations } from '../actions/recommendations'
 import { set as setModal } from '../actions/modal'
@@ -50,16 +51,10 @@ const Recommendations = props => {
         {props.items.map((track, i) => {
           return (
             <Track track={track} key={i}>
-              <ButtonGroup justified>
-                <ButtonGroup>
-                  <PlayControls track={track} />
-                </ButtonGroup>
-                <ButtonGroup>
-                  <Button bsStyle="warning" onClick={() => props.setModal(track.title, <TrackDetails track={track} />)}>
-                    <Glyphicon glyph="info-sign" />
-                  </Button>
-                </ButtonGroup>
-              </ButtonGroup>
+              <div className="controls">
+                <PlayControls track={track} />
+                <GlyphText glyph="info-sign" text="Track Info" onClick={() => props.setModal(track.title, <TrackDetails track={track} />)} />
+              </div>
             </Track>
           )
         })}

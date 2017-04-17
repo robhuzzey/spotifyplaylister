@@ -8,8 +8,9 @@ import Seeds from './Seeds'
 import Authenticate from './Authenticate'
 import Player from './Player'
 import TrackDetails from '../components/TrackDetails.jsx'
+import GlyphText from '../components/GlyphText.jsx'
 
-import { Modal, Container, Navbar, Nav, NavItem, Badge, Button, ButtonGroup, ButtonToolbar, Grid, Row, Col} from 'react-bootstrap'
+import { Modal, Container, Glyphicon, Navbar, Nav, NavItem, Badge, Button, ButtonGroup, ButtonToolbar, Grid, Row, Col} from 'react-bootstrap'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -47,9 +48,7 @@ const Main = props => (
       </Navbar.Header>
       <Navbar.Collapse>
         <Nav pullRight>
-          <NavItem>
-            <Player onClick={track => props.setModal(track.title, <TrackDetails track={track} />)} />
-          </NavItem>
+          <Player onClick={track => props.setModal(track.title, <TrackDetails track={track} />)} />
         </Nav>
       </Navbar.Collapse>
     </Navbar>
@@ -66,21 +65,12 @@ const Main = props => (
     </Grid>
 
     {props.isAuthenticated && (
-      <Navbar fixedBottom style={{padding: '5px'}}>
-        
-        <ButtonGroup justified>
-          <ButtonGroup>
-            <Button active={props.page === 'tracks'} onClick={() => props.changePage('tracks')}>Tracks</Button>
-          </ButtonGroup>
-          <ButtonGroup>
-            <Button active={props.page === 'seeds'} onClick={() => props.changePage('seeds')}>Seeds <Badge>{props.seedCount}</Badge></Button>
-          </ButtonGroup>
-        </ButtonGroup>
-        <ButtonGroup justified>
-          <ButtonGroup>
-            <Button active={props.page === 'recommendations'} onClick={() => props.changePage('recommendations')}>Recommendations</Button>
-          </ButtonGroup>
-        </ButtonGroup>
+      <Navbar fixedBottom id="bottomNavigation">
+        <Nav activeKey={props.page}>
+          <NavItem eventKey="tracks" onClick={() => props.changePage('tracks')}><GlyphText glyph="th-list" text="Tracks" /></NavItem>
+          <NavItem eventKey="recommendations" onClick={() => props.changePage('recommendations')}><GlyphText glyph="eye-open" text="Recommendations" /></NavItem>
+          <NavItem eventKey="seeds" onClick={() => props.changePage('seeds')}><GlyphText glyph={props.seedCount > 0 ? "heart" : "heart-empty"} text="Seeds" /></NavItem>
+        </Nav>
       </Navbar>
     )}
 
