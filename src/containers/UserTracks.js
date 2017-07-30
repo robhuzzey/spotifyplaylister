@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Infinite from 'react-infinite'
 
 import { addSeed } from '../actions/seed'
 import { loadTrack } from '../actions/player'
@@ -9,8 +8,8 @@ import { getUsersTracks } from '../actions/getUsersTracks'
 import { Button, ButtonGroup, ProgressBar, Badge, Panel, ListGroup, ListGroupItem } from 'react-bootstrap'
 
 import Track from '../components/Track.jsx'
-
 import Page from '../components/Page.jsx'
+import Loader from '../components/Loader.jsx'
 
 import PlayControls from '../containers/PlayControls'
 import SeedControls from '../containers/SeedControls'
@@ -43,27 +42,33 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 class UserTracks extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.loadMoreTracks = this.loadMoreTracks.bind(this)
+  }
+
+  componentDidMount() {
+    this.loadMoreTracks()
+  }
+
+  loadMoreTracks() {
+    !this.props.isFetching && !this.props.allLoaded && this.props.getUsersTracks(this.props.offset, this.props.limit)
+  }
+
   render() {
     return (
-      <div>
-        <Infinite 
-          useWindowAsScrollContainer 
-          elementHeight={100}
-          infiniteLoadBeginEdgeOffset={200}
-          onInfiniteLoad={() => !this.props.isFetching && !this.props.allLoaded && this.props.getUsersTracks(this.props.offset, this.props.limit)}
-        >
-          {this.props.tracks.map((track, i) => {
-            return (
-              <Track track={track} key={i}>
-                <div className="controls">
-                  <PlayControls track={track} />
-                  <SeedControls track={track} />
-                </div>
-              </Track>
-            )
-          })}
-        </Infinite>
-      </div>
+      <Loader offset={10} onEnter={this.loadMoreTracks}>
+        {this.props.tracks.map((track, i) => {
+          return (
+            <Track track={track} key={i}>
+              <div className="controls">
+                <PlayControls track={track} />
+                <SeedControls track={track} />
+              </div>
+            </Track>
+          )
+        })}
+      </Loader>
     )
   }
 }
