@@ -7,6 +7,8 @@ import seeds from './seed'
 import recommendations from './recommendations'
 import navigation from './navigation'
 import modal from './modal'
+import playlists from './playlists'
+import playlistTracks from './playlistTracks'
 
 const rootReducer = combineReducers({
   authenticate,
@@ -15,7 +17,9 @@ const rootReducer = combineReducers({
   recommendations,
   player,
   navigation,
-  modal
+  modal,
+  playlists,
+  playlistTracks
 })
 
 export default rootReducer

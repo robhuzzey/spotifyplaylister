@@ -7,6 +7,7 @@ import Recommendations from './Recommendations'
 import Seeds from './Seeds'
 import Authenticate from './Authenticate'
 import Player from './Player'
+import Playlists from './Playlists'
 import TrackDetails from '../components/TrackDetails.jsx'
 import GlyphText from '../components/GlyphText.jsx'
 
@@ -59,6 +60,7 @@ const Main = props => (
             {props.page === 'tracks' && <UserTracks />}
             {props.page === 'recommendations' && <Recommendations />}
             {props.page === 'seeds' && <Seeds />}
+            {props.page === 'playlists' && <Playlists />}
           </Authenticate>
         </Col>
       </Row>
@@ -67,6 +69,7 @@ const Main = props => (
     {props.isAuthenticated && (
       <Navbar fixedBottom id="bottomNavigation">
         <Nav activeKey={props.page}>
+          <NavItem eventKey="playlists" onClick={() => props.changePage('playlists')}><GlyphText glyph="th-list" text="Playlists" /></NavItem>
           <NavItem eventKey="tracks" onClick={() => props.changePage('tracks')}><GlyphText glyph="th-list" text="Tracks" /></NavItem>
           <NavItem eventKey="seeds" onClick={() => props.changePage('seeds')}><GlyphText glyph={props.seedCount > 0 ? "heart" : "heart-empty"} text="Likes" /></NavItem>
           <NavItem eventKey="recommendations" onClick={() => props.changePage('recommendations')}><GlyphText glyph="eye-open" text="Discover" /></NavItem>

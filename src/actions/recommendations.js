@@ -1,5 +1,6 @@
 export const REQUEST_RECOMMENDATIONS = 'REQUEST_RECOMMENDATIONS'
 export const RECEIVE_RECOMMENDATIONS = 'RECEIVE_RECOMMENDATIONS'
+export const CLEAR_RECOMMENDATIONS = 'CLEAR_RECOMMENDATIONS'
 
 import {
   changePage
@@ -23,6 +24,14 @@ export const getRecommendations = () => {
       dispatch(changePage('recommendations'))
     }, err => {
       console.log('Something went wrong!', err)
+    })
+  }
+}
+
+export const clearRecommendations = () => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: CLEAR_RECOMMENDATIONS
     })
   }
 }

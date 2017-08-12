@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import { addUserTrack } from '../actions/addUserTrack'
 
-import { Button, Glyphicon } from 'react-bootstrap'
+import GlyphText from '../components/GlyphText.jsx'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -21,18 +21,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const PlaylistControls = props => {
+  const glyph = props.savedUserTrack === props.track.id ? 'saved' : 'plus'
+  const loading = props.addingUserTrack === props.track.id ? 'hourglass' : glyph
   return (
-    <Button bsStyle="default" onClick={() => props.addUserTrack(props.track)}>
-      {props.addingUserTrack === props.track.id ? (
-        <Glyphicon glyph="hourglass" />
-      ) : (
-        props.savedUserTrack === props.track.id ? (
-          <Glyphicon glyph="saved" />
-        ) : (
-          <Glyphicon glyph="plus" />
-        )
-      )}
-    </Button>
+    <GlyphText glyph={loading} onClick={() => props.addUserTrack(props.track)} text="Add to tracks" />
   )
 }
 

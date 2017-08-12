@@ -1,6 +1,7 @@
 import {
   REQUEST_RECOMMENDATIONS,
-  RECEIVE_RECOMMENDATIONS
+  RECEIVE_RECOMMENDATIONS,
+  CLEAR_RECOMMENDATIONS
 } from '../actions/recommendations'
 
 const recommendations = (state = {
@@ -9,6 +10,10 @@ const recommendations = (state = {
   count: 0
 }, action) => {
   switch (action.type) {
+    case CLEAR_RECOMMENDATIONS:
+      return Object.assign({}, state, {
+        items: []
+      })
     case REQUEST_RECOMMENDATIONS:
       return Object.assign({}, state, {
         isLoading: true

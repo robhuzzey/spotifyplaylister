@@ -4,21 +4,21 @@ import { connect } from 'react-redux'
 import Track from '../components/Track.jsx'
 import Page from '../components/Page.jsx'
 import Loader from '../components/Loader.jsx'
-import TrackDetails from '../components/TrackDetails.jsx'
 
 import PlayControls from '../containers/PlayControls'
 import SeedControls from '../containers/SeedControls'
+import PlaylistControls from '../containers/PlaylistControls'
 
 import { Badge, Button, ButtonGroup, Panel, Glyphicon } from 'react-bootstrap'
-import GlyphText from '../components/GlyphText.jsx'
 
-import { getRecommendations } from '../actions/recommendations'
+import { getRecommendations, clearRecommendations } from '../actions/recommendations'
 import { set as setModal } from '../actions/modal'
 
 const mapStateToProps = (state, ownProps) => {
   return {
     items: state.recommendations.items,
-    isLoading: state.recommendations.isLoading
+    isLoading: state.recommendations.isLoading,
+    seeds: state.seeds.items
   }
 }
 
@@ -32,11 +32,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     setModal: (title, body) => {
       dispatch(setModal(title, body))
-    }
+    },
+    clearRecommendations: () => {
+      dispatch(clearRecommendations())
+    },
   }
 }
-
-const loadingMessage = <span>Loading...<Glyphicon className="spinning" glyph="refresh" /></span>
 
 class Recommendations extends React.Component {
 
@@ -56,9 +57,17 @@ class Recommendations extends React.Component {
   render() {
     return (
       <div>
-        {this.props.items.length > 0 && <p><Button active={this.props.isLoading} onClick={this.props.getRecommendations}>{this.props.isLoading ? loadingMessage : 'Refresh suggestions'}</Button></p>}
+        {this.props.isLoading && (
+          <span>Loading...<Glyphicon className="spinning" glyph="refresh" /></span>
+        )}
+
+        {this.props.items.length > 0 ? (
+          <p><Button onClick={this.props.clearRecommendations}>Clear suggestions</Button></p>
+        ) : (
+          <p><Button active={this.props.isLoading} onClick={this.props.getRecommendations}>Reload suggestions</Button></p>
+        )}
         <div>
-          {this.props.items.length === 0 && 
+          {this.props.seeds.length === 0 && 
             <Panel>
               {this.props.isLoading ? loadingMessage : 'Once you have added liked tracks, a list of recommendations based off that will appear here.'}
             </Panel>
@@ -71,7 +80,7 @@ class Recommendations extends React.Component {
                   <div className="controls">
                     <PlayControls track={track} />
                     <SeedControls track={track} />
-                    <GlyphText glyph="info-sign" text="Track Info" onClick={() => this.props.setModal(track.title, <TrackDetails track={track} />)} />
+                    <PlaylistControls track={track} />
                   </div>
                 </Track>
               )
