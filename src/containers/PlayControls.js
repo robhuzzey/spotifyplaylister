@@ -11,7 +11,8 @@ const mapStateToProps = (state, ownProps) => {
     isLoaded: state.player.isLoaded,
     addingUserTrack: state.userTracks.addingUserTrack,
     addedUserTrack: state.userTracks.addedUserTrack,
-    addingUserTrackFailed: state.userTracks.addingUserTrackFailed
+    addingUserTrackFailed: state.userTracks.addingUserTrackFailed,
+    isPlayable: ownProps.track.preview_url
   }
 }
 
@@ -30,6 +31,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const PlayControls = props => {
+  if(!props.isPlayable) return (
+    <GlyphText glyph="ban-circle" text="No Preview" />
+  )
   return props.isThisTrack ? (
     props.isLoaded ? (
       <GlyphText glyph="stop" onClick={props.unload} text="Stop" active />

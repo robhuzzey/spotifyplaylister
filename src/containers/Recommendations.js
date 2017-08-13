@@ -47,7 +47,7 @@ class Recommendations extends React.Component {
   }
 
   componentDidMount() {
-    this.loadMoreTracks()
+    this.props.seeds.length > 0 && this.loadMoreTracks()
   }
 
   loadMoreTracks() {
@@ -57,21 +57,22 @@ class Recommendations extends React.Component {
   render() {
     return (
       <div>
-        {this.props.isLoading && (
-          <span>Loading...<Glyphicon className="spinning" glyph="refresh" /></span>
-        )}
-
-        {this.props.items.length > 0 ? (
-          <p><Button onClick={this.props.clearRecommendations}>Clear suggestions</Button></p>
-        ) : (
-          <p><Button active={this.props.isLoading} onClick={this.props.getRecommendations}>Reload suggestions</Button></p>
-        )}
         <div>
-          {this.props.seeds.length === 0 && 
-            <Panel>
-              {this.props.isLoading ? loadingMessage : 'Once you have added liked tracks, a list of recommendations based off that will appear here.'}
-            </Panel>
-          }
+          {this.props.seeds.length === 0 ? (
+            <Panel>Once you have added liked tracks, a list of recommendations based off that will appear here.</Panel>
+          ) : (
+            <div>
+              {this.props.isLoading && (
+                <span>Loading...<Glyphicon className="spinning" glyph="refresh" /></span>
+              )}
+
+              {this.props.items.length > 0 ? (
+                <p><Button onClick={this.props.clearRecommendations}>Clear suggestions</Button></p>
+              ) : (
+                <p><Button active={this.props.isLoading} onClick={this.props.getRecommendations}>Reload suggestions</Button></p>
+              )}
+            </div>
+          )}
 
           <Loader offset={5} onEnter={this.loadMoreTracks}>
             {this.props.items.map((track, i) => {
