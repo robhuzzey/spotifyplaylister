@@ -1,12 +1,3 @@
-import {
-  REQUEST_PLAYLIST_TRACKS,
-  RECEIVE_PLAYLIST_TRACKS
-} from '../actions/getPlaylistTracks'
-
-import {
-  CHOOSE_USER_PLAYLIST
-} from '../actions/getUsersPlaylists'
-
 const defaultState = {
   items: [],
   isFetching: false,
@@ -19,14 +10,19 @@ const defaultState = {
 const playlistTracks = (state = defaultState, action) => {
   switch (action.type) {
 
-    case CHOOSE_USER_PLAYLIST:
+    case 'CHOOSE_USER_PLAYLIST':
       return defaultState
 
-    case REQUEST_PLAYLIST_TRACKS:
+    case 'REQUEST_PLAYLIST_TRACKS':
       return Object.assign({}, state, {
         isFetching: true
       })
-    case RECEIVE_PLAYLIST_TRACKS:
+    case 'RECEIVE_ADD_TRACKS_TO_PLAYLIST':
+      return Object.assign({}, state, {
+        offset: 0,
+        allLoaded: false
+      })
+    case 'RECEIVE_PLAYLIST_TRACKS':
       const items = state.items.concat(action.data.body.items);
       return Object.assign({}, state, {
         items,

@@ -1,5 +1,3 @@
-export const CHANGE_PAGE = 'CHANGE_PAGE'
-
 import {
   getRecommendations
 } from './recommendations'
@@ -7,7 +5,7 @@ import {
 export const changePage = pagename => {
   return (dispatch, getState, {spotifyApi}) => {
     dispatch({
-      type: CHANGE_PAGE,
+      type: 'CHANGE_PAGE',
       pagename
     })
 

@@ -1,14 +1,3 @@
-import {
-  ADD_GENRE,
-  REMOVE_GENRE,
-  TOGGLE_LIST
-} from '../actions/genre'
-
-import {
-  RECEIVED_ALL_ARTISTS,
-  REQUEST_ALL_ARTISTS
-} from '../actions/getArtists'
-
 const genres = (state = {
   genre: null,
   loading: false,
@@ -16,21 +5,21 @@ const genres = (state = {
   showList: false
 }, action) => {
   switch (action.type) {
-    case TOGGLE_LIST:
+    case 'TOGGLE_LIST':
       return Object.assign({}, state, {
         showList: !state.showList
       })
-    case ADD_GENRE:
+    case 'ADD_GENRE':
       return Object.assign({}, state, {
         genre: action.genre,
         showList: false
       })
-    case REMOVE_GENRE:
+    case 'REMOVE_GENRE':
       return Object.assign({}, state, {
         genre: null,
         showList: false
       })
-    case RECEIVED_ALL_ARTISTS:
+    case 'RECEIVED_ALL_ARTISTS':
       const all = []
       action.items.map(item => {
         item.genres.map(genre => {
@@ -54,7 +43,7 @@ const genres = (state = {
         loading: false,
         all
       })
-    case REQUEST_ALL_ARTISTS:
+    case 'REQUEST_ALL_ARTISTS':
 
       return Object.assign({}, state, {
         loading: true

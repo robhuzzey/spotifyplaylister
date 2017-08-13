@@ -1,9 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { getUsersPlaylists, choosePlaylist } from '../actions/getUsersPlaylists'
+import { Button } from 'react-bootstrap'
 
-import { FormControl } from 'react-bootstrap'
+import Select from 'react-select'
+import 'react-select/dist/react-select.css'
+
+import { createPlaylist, getUsersPlaylists, choosePlaylist } from '../actions/getUsersPlaylists'
 
 import PlaylistTracks from './PlaylistTracks'
 
@@ -17,7 +20,8 @@ const mapStateToProps = (state, ownProps) => {
     limit: state.playlists.limit,
     allLoaded: state.playlists.allLoaded,
     chosenPlaylistId: state.playlists.chosenPlaylistId,
-    playlistOwnerId: state.playlists.playlistOwnerId
+    playlistOwnerId: state.playlists.playlistOwnerId,
+    newPlaylist: state.playlists.newPlaylist
   }
 }
 
@@ -26,8 +30,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getUsersPlaylists: (offset, limit) => {
       dispatch(getUsersPlaylists(offset, limit))
     },
-    choosePlaylist: (playlistId) => {
-      dispatch(choosePlaylist(playlistId))
+    choosePlaylist: (playlist) => {
+      dispatch(choosePlaylist(playlist.value, playlist.label))
+    },
+    createPlaylist: playlistName => {
+      dispatch(createPlaylist(playlistName))
     }
   }
 }
@@ -36,6 +43,16 @@ class Playlists extends React.Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      searchInputText: ''
+    }
+    this.updateInputText = this.updateInputText.bind(this)
+  }
+
+  updateInputText(searchInputText) {
+    this.setState({
+      searchInputText
+    })
   }
 
   componentDidMount() {
@@ -51,14 +68,20 @@ class Playlists extends React.Component {
   render() {
     return (
       <div>
-        <FormControl value={this.props.chosenPlaylistId || ''} componentClass='select' placeholder='select' onChange={(e) => this.props.choosePlaylist(e.target.value)}>
-          <option value=''>select</option>
-          {this.props.playlists.map((playlist, i) => {
-            return (
-              <option key={i} value={playlist.id}>{playlist.name}</option>
-            )
+        <Select
+          clearable={false}
+          value={this.props.chosenPlaylistId}
+          options={this.props.playlists.map(playlist => {
+            return {
+              value: playlist.id,
+              label: playlist.name
+            }
           })}
-        </FormControl>
+          onChange={this.props.choosePlaylist}
+          onInputChange={this.updateInputText}
+          noResultsText={<Button onClick={() => this.props.createPlaylist(this.state.searchInputText)}>Create playlist {this.state.searchInputText}</Button>}
+        />
+
         {this.props.allLoaded && this.props.chosenPlaylistId && this.props.playlistOwnerId && (
           <PlaylistTracks />
         )}

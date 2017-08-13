@@ -1,24 +1,18 @@
-import {
-  REQUEST_RECOMMENDATIONS,
-  RECEIVE_RECOMMENDATIONS,
-  CLEAR_RECOMMENDATIONS
-} from '../actions/recommendations'
-
 const recommendations = (state = {
   items: [],
   isLoading: false,
   count: 0
 }, action) => {
   switch (action.type) {
-    case CLEAR_RECOMMENDATIONS:
+    case 'CLEAR_RECOMMENDATIONS':
       return Object.assign({}, state, {
         items: []
       })
-    case REQUEST_RECOMMENDATIONS:
+    case 'REQUEST_RECOMMENDATIONS':
       return Object.assign({}, state, {
         isLoading: true
       })
-    case RECEIVE_RECOMMENDATIONS:
+    case 'RECEIVE_RECOMMENDATIONS':
       const items = state.items.concat(action.data.body.tracks);
       return Object.assign({}, state, {
         isLoading: false,

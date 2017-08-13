@@ -1,9 +1,3 @@
-export const REQUEST_AUTHENTICATION = 'REQUEST_AUTHENTICATION'
-export const RECEIVE_AUTHENTICATION = 'RECEIVE_AUTHENTICATION'
-export const IS_AUTHENTICATED = 'IS_AUTHENTICATED'
-export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN'
-
-
 const parseHash = hash => {
   return hash.replace('#','')
     .split('&')
@@ -25,7 +19,7 @@ export const checkAccessToken = () => {
       return dispatch(setAccessToken())
     }
     dispatch({
-      type: IS_AUTHENTICATED
+      type: 'IS_AUTHENTICATED'
     })
   }
 }
@@ -35,7 +29,7 @@ const setAccessToken = () => {
     const accessToken = parseHash(window.location.hash).access_token
     const expires = parseHash(window.location.hash).expires_in
     dispatch({
-      type: SET_ACCESS_TOKEN,
+      type: 'SET_ACCESS_TOKEN',
       accessToken,
       expires
     })
@@ -46,7 +40,29 @@ const setAccessToken = () => {
 export const authenticate = () => {
   return (dispatch, getState, {spotifyApi}) => {
     dispatch({
-      type: REQUEST_AUTHENTICATION
+      type: 'REQUEST_AUTHENTICATION'
+    })
+  }
+}
+
+export const getMe = () => {
+  return (dispatch, getState, {spotifyApi}) => {
+    dispatch({
+      type: 'REQUEST_LOGGED_IN_USER_DETAILS'
+    })
+
+    return spotifyApi.getMe().then(data => { 
+      dispatch({
+        type: 'RECEIVE_LOGGED_IN_USER_DETAILS',
+        data
+      })
+    }, err =>  {
+      if(err.statusCode === 401) {
+        dispatch({
+          type: 'REQUEST_AUTHENTICATION'
+        })
+      }
+      console.log('Something went wrong!', err)
     })
   }
 }

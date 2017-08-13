@@ -1,7 +1,3 @@
-export const REQUEST_RECOMMENDATIONS = 'REQUEST_RECOMMENDATIONS'
-export const RECEIVE_RECOMMENDATIONS = 'RECEIVE_RECOMMENDATIONS'
-export const CLEAR_RECOMMENDATIONS = 'CLEAR_RECOMMENDATIONS'
-
 import {
   changePage
 } from './navigation'
@@ -9,7 +5,7 @@ import {
 export const getRecommendations = () => {
   return (dispatch, getState, {spotifyApi}) => {
     dispatch({
-      type: REQUEST_RECOMMENDATIONS
+      type: 'REQUEST_RECOMMENDATIONS'
     })
 
     // Only passes the first 5 items dues to restrictions from spotify API.
@@ -18,7 +14,7 @@ export const getRecommendations = () => {
     })
     .then(data => { 
       dispatch({
-        type: RECEIVE_RECOMMENDATIONS,
+        type: 'RECEIVE_RECOMMENDATIONS',
         data
       })
       dispatch(changePage('recommendations'))
@@ -31,7 +27,7 @@ export const getRecommendations = () => {
 export const clearRecommendations = () => {
   return (dispatch, getState) => {
     dispatch({
-      type: CLEAR_RECOMMENDATIONS
+      type: 'CLEAR_RECOMMENDATIONS'
     })
   }
 }

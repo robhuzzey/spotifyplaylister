@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { checkAccessToken, authenticate } from '../actions/authenticate'
+import { checkAccessToken, authenticate, getMe } from '../actions/authenticate'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -16,6 +16,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     checkAccessToken: () => {
       dispatch(checkAccessToken())
+    },
+    getLoggedInUserDetails: () => {
+      dispatch(getMe())
     }
   }
 }
@@ -30,6 +33,8 @@ class Authenticate extends React.Component {
     this.props.checkAccessToken()
     if(!this.props.isAuthenticated) {
       this.props.authenticate()
+    } else {
+      this.props.getLoggedInUserDetails()
     }
   }
 

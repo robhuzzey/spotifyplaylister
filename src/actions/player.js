@@ -1,11 +1,7 @@
-export const LOAD_TRACK = 'LOAD_TRACK'
-export const UNLOAD_TRACK = 'UNLOAD_TRACK'
-export const TRACK_LOADED = 'TRACK_LOADED'
-
 export const loadTrack = track => {
   return (dispatch, getState, {spotifyApi}) => {
     dispatch({
-      type: LOAD_TRACK,
+      type: 'LOAD_TRACK',
       track
     })
   }
@@ -14,7 +10,7 @@ export const loadTrack = track => {
 export const unloadTrack = () => {
   return (dispatch, getState, {spotifyApi}) => {
     dispatch({
-      type: UNLOAD_TRACK
+      type: 'UNLOAD_TRACK'
     })
   }
 }
@@ -22,7 +18,7 @@ export const unloadTrack = () => {
 export const trackLoaded = () => {
   return (dispatch, getState, {spotifyApi}) => {
     dispatch({
-      type: TRACK_LOADED
+      type: 'TRACK_LOADED'
     })
   }
 }

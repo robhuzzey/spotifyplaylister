@@ -4,7 +4,7 @@ export default (props) => (
   <Media className="track" style={{marginTop: '10px', marginBottom: '10px', borderBottom: '1px solid #EEE', paddingBottom: '10px'}}>
     <Media.Left style={{verticalAlign: 'middle'}}>
       <div>
-        <img alt="album art" width={90} height={90} src={props.track && props.track.album && (props.track.album.images[2] || props.track.album.images[1] || props.track.album.images[0]).url} />
+        <img alt="album art" width={90} height={90} src={props.track && props.track.album && (props.track.album.images[2] || props.track.album.images[1] || props.track.album.images[0] || {}).url} />
       </div>
     </Media.Left>
     <Media.Body style={{verticalAlign: 'middle'}}>

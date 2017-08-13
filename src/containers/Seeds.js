@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import { removeSeed } from '../actions/seed'
 import { loadTrack } from '../actions/player'
+import { addTracksToPlaylist } from '../actions/getUsersPlaylists'
 
 import { Button, ButtonGroup, Panel } from 'react-bootstrap';
 
@@ -15,7 +16,9 @@ import PlaylistControls from '../containers/PlaylistControls'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    items: state.seeds.items
+    items: state.seeds.items,
+    playlistId: state.playlists.chosenPlaylistId,
+    playlistName: state.playlists.chosenPlaylistName
   }
 }
 
@@ -26,6 +29,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     removeSeed: trackId => {
       dispatch(removeSeed(trackId))
+    },
+    addTracksToPlaylist: (playlistId, tracks) => {
+      const uris = tracks.map(track => {
+        return track.uri
+      })
+      dispatch(addTracksToPlaylist(playlistId, uris))
     }
   }
 }
@@ -39,6 +48,7 @@ const Seeds = props => (
         </Panel>
       ) : (
         <div>
+          {props.playlistId && <Button onClick={() => props.addTracksToPlaylist(props.playlistId, props.items)}>Add tracks to {props.playlistName}</Button>}
           {props.items.map((track, i) => {
             return (
               <Track track={track} key={i}>
